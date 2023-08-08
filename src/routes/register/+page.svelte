@@ -1,5 +1,9 @@
+<script>
+	import { enhance } from '$app/forms';
+</script>
+
 <h1>Register Page</h1>
-<form action="?/register" method="POST">
+<form action="?/register" method="POST" use:enhance>
 	<input type="email" name="email" />
 	<input type="password" name="password" />
 	<input type="password" name="registerCode" />
