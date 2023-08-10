@@ -1,4 +1,8 @@
+<script>
+	import { enhance } from '$app/forms';
+</script>
+
 <h1>Welcome to Dashboad</h1>
-<form action="/api/v1/logout" method="POST">
+<form method="post" action="/auth?/logout" use:enhance>
 	<button>Logout</button>
 </form>

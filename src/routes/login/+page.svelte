@@ -3,7 +3,7 @@
 </script>
 
 <h1>Login page</h1>
-<form action="?/login" method="POST" use:enhance>
+<form action="/auth?/login" method="POST" use:enhance>
 	<input type="email" name="email" />
 	<input type="password" name="password" />
 	<input type="submit" />

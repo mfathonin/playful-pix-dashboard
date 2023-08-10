@@ -3,7 +3,7 @@
 </script>
 
 <h1>Register Page</h1>
-<form action="?/register" method="POST" use:enhance>
+<form action="/auth?/register" method="POST" use:enhance>
 	<input type="email" name="email" />
 	<input type="password" name="password" />
 	<input type="password" name="registerCode" />
