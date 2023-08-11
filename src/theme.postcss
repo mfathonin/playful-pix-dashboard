@@ -1,0 +1,100 @@
+:root {
+	/* =~= Theme Properties =~= */
+	--theme-font-family-base: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+		'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+		'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+	--theme-font-family-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+		'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+		'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+	--theme-font-color-base: 0 0 0;
+	--theme-font-color-dark: 255 255 255;
+	--theme-rounded-base: 8px;
+	--theme-rounded-container: 8px;
+	--theme-border-base: 1px;
+	/* =~= Theme On-X Colors =~= */
+	--on-primary: 0 0 0;
+	--on-secondary: 0 0 0;
+	--on-tertiary: 255 255 255;
+	--on-success: 255 255 255;
+	--on-warning: 255 255 255;
+	--on-error: 0 0 0;
+	--on-surface: 255 255 255;
+	/* =~= Theme Colors  =~= */
+	/* primary | #d2912a */
+	--color-primary-50: 248 239 223; /* ⬅ #f8efdf */
+	--color-primary-100: 246 233 212; /* ⬅ #f6e9d4 */
+	--color-primary-200: 244 228 202; /* ⬅ #f4e4ca */
+	--color-primary-300: 237 211 170; /* ⬅ #edd3aa */
+	--color-primary-400: 224 178 106; /* ⬅ #e0b26a */
+	--color-primary-500: 210 145 42; /* ⬅ #d2912a */
+	--color-primary-600: 189 131 38; /* ⬅ #bd8326 */
+	--color-primary-700: 158 109 32; /* ⬅ #9e6d20 */
+	--color-primary-800: 126 87 25; /* ⬅ #7e5719 */
+	--color-primary-900: 103 71 21; /* ⬅ #674715 */
+	/* secondary | #5bbe01 */
+	--color-secondary-50: 230 245 217; /* ⬅ #e6f5d9 */
+	--color-secondary-100: 222 242 204; /* ⬅ #def2cc */
+	--color-secondary-200: 214 239 192; /* ⬅ #d6efc0 */
+	--color-secondary-300: 189 229 153; /* ⬅ #bde599 */
+	--color-secondary-400: 140 210 77; /* ⬅ #8cd24d */
+	--color-secondary-500: 91 190 1; /* ⬅ #5bbe01 */
+	--color-secondary-600: 82 171 1; /* ⬅ #52ab01 */
+	--color-secondary-700: 68 143 1; /* ⬅ #448f01 */
+	--color-secondary-800: 55 114 1; /* ⬅ #377201 */
+	--color-secondary-900: 45 93 0; /* ⬅ #2d5d00 */
+	/* tertiary | #373a11 */
+	--color-tertiary-50: 225 225 219; /* ⬅ #e1e1db */
+	--color-tertiary-100: 215 216 207; /* ⬅ #d7d8cf */
+	--color-tertiary-200: 205 206 196; /* ⬅ #cdcec4 */
+	--color-tertiary-300: 175 176 160; /* ⬅ #afb0a0 */
+	--color-tertiary-400: 115 117 88; /* ⬅ #737558 */
+	--color-tertiary-500: 55 58 17; /* ⬅ #373a11 */
+	--color-tertiary-600: 50 52 15; /* ⬅ #32340f */
+	--color-tertiary-700: 41 44 13; /* ⬅ #292c0d */
+	--color-tertiary-800: 33 35 10; /* ⬅ #21230a */
+	--color-tertiary-900: 27 28 8; /* ⬅ #1b1c08 */
+	/* success | #892e79 */
+	--color-success-50: 237 224 235; /* ⬅ #ede0eb */
+	--color-success-100: 231 213 228; /* ⬅ #e7d5e4 */
+	--color-success-200: 226 203 222; /* ⬅ #e2cbde */
+	--color-success-300: 208 171 201; /* ⬅ #d0abc9 */
+	--color-success-400: 172 109 161; /* ⬅ #ac6da1 */
+	--color-success-500: 137 46 121; /* ⬅ #892e79 */
+	--color-success-600: 123 41 109; /* ⬅ #7b296d */
+	--color-success-700: 103 35 91; /* ⬅ #67235b */
+	--color-success-800: 82 28 73; /* ⬅ #521c49 */
+	--color-success-900: 67 23 59; /* ⬅ #43173b */
+	/* warning | #2e60be */
+	--color-warning-50: 224 231 245; /* ⬅ #e0e7f5 */
+	--color-warning-100: 213 223 242; /* ⬅ #d5dff2 */
+	--color-warning-200: 203 215 239; /* ⬅ #cbd7ef */
+	--color-warning-300: 171 191 229; /* ⬅ #abbfe5 */
+	--color-warning-400: 109 144 210; /* ⬅ #6d90d2 */
+	--color-warning-500: 46 96 190; /* ⬅ #2e60be */
+	--color-warning-600: 41 86 171; /* ⬅ #2956ab */
+	--color-warning-700: 35 72 143; /* ⬅ #23488f */
+	--color-warning-800: 28 58 114; /* ⬅ #1c3a72 */
+	--color-warning-900: 23 47 93; /* ⬅ #172f5d */
+	/* error | #32dfc6 */
+	--color-error-50: 224 250 246; /* ⬅ #e0faf6 */
+	--color-error-100: 214 249 244; /* ⬅ #d6f9f4 */
+	--color-error-200: 204 247 241; /* ⬅ #ccf7f1 */
+	--color-error-300: 173 242 232; /* ⬅ #adf2e8 */
+	--color-error-400: 112 233 215; /* ⬅ #70e9d7 */
+	--color-error-500: 50 223 198; /* ⬅ #32dfc6 */
+	--color-error-600: 45 201 178; /* ⬅ #2dc9b2 */
+	--color-error-700: 38 167 149; /* ⬅ #26a795 */
+	--color-error-800: 30 134 119; /* ⬅ #1e8677 */
+	--color-error-900: 25 109 97; /* ⬅ #196d61 */
+	/* surface | #6a86aa */
+	--color-surface-50: 233 237 242; /* ⬅ #e9edf2 */
+	--color-surface-100: 225 231 238; /* ⬅ #e1e7ee */
+	--color-surface-200: 218 225 234; /* ⬅ #dae1ea */
+	--color-surface-300: 195 207 221; /* ⬅ #c3cfdd */
+	--color-surface-400: 151 170 196; /* ⬅ #97aac4 */
+	--color-surface-500: 106 134 170; /* ⬅ #6a86aa */
+	--color-surface-600: 95 121 153; /* ⬅ #5f7999 */
+	--color-surface-700: 80 101 128; /* ⬅ #506580 */
+	--color-surface-800: 64 80 102; /* ⬅ #405066 */
+	--color-surface-900: 52 66 83; /* ⬅ #344253 */
+}

@@ -1,5 +1,5 @@
 <script>
-	import '@skeletonlabs/skeleton/themes/theme-crimson.css';
+	import '../theme.postcss';
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	import '../app.postcss';
 </script>
