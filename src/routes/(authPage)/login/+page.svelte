@@ -25,6 +25,7 @@
 			class={`input p-2 ${$errors.email ? 'input-error' : ''}`}
 			title="Email"
 			name="email"
+			placeholder="Masukan email Anda"
 			aria-invalid={$form.email ? 'true' : undefined}
 			bind:value={$form.email}
 		/>
@@ -37,6 +38,7 @@
 			type="password"
 			title="Password"
 			name="password"
+			placeholder="Masukan password Anda"
 			aria-invalid={$form.password ? 'true' : undefined}
 			bind:value={$form.password}
 		/>

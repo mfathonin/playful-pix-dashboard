@@ -25,13 +25,20 @@
 		<input
 			class={`input p-2 ${$errors.email ? 'input-error' : ''}`}
 			name="email"
+			placeholder="Masukan email Anda"
 			bind:value={$form.email}
 		/>
 		<FormErrorMessage errors={$errors.email} />
 	</label>
 	<label class="label" aria-required="true">
 		<span>Password</span>
-		<input class={'input p-2'} type="password" name="password" bind:value={$form.password} />
+		<input
+			class={'input p-2'}
+			type="password"
+			name="password"
+			placeholder="Masukan password Anda"
+			bind:value={$form.password}
+		/>
 		<FormErrorMessage errors={$errors.password} />
 	</label>
 	<label class="label" aria-required="true">
@@ -40,6 +47,7 @@
 			class={`input p-2 mb-10 ${$errors.registerCode ? 'input-error' : ''}`}
 			type="password"
 			name="registerCode"
+			placeholder="Masukan kode register"
 			bind:value={$form.registerCode}
 		/>
 		<FormErrorMessage errors={$errors.registerCode} />
