@@ -3,8 +3,7 @@ import type { Actions } from '../$types';
 
 export const actions: Actions = {
 	logout: async ({ fetch }) => {
-		const res = await fetch('/api/v1/logout', { method: 'POST' });
-		console.log(res);
+		await fetch('/api/v1/logout', { method: 'POST' });
 
 		throw redirect(303, '/login');
 	},
