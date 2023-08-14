@@ -5,7 +5,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	export let data: PageData;
-	const { form, constraints, errors, enhance } = superForm(data.form, {
+	const { form, errors, enhance } = superForm(data.form, {
 		validators: loginSchema,
 		taintedMessage: undefined
 	});
@@ -22,7 +22,7 @@
 	<label class="label">
 		<span>Email</span>
 		<input
-			class="input p-2"
+			class={`input p-2 ${$errors.email ? 'input-error' : ''}`}
 			title="Email"
 			name="email"
 			aria-invalid={$form.email ? 'true' : undefined}
@@ -33,7 +33,7 @@
 	<label class="label">
 		<span>Password</span>
 		<input
-			class="input p-2"
+			class={`input p-2 ${$errors.password ? 'input-error' : ''}`}
 			type="password"
 			title="Password"
 			name="password"
