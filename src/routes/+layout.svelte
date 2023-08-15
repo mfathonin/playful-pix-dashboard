@@ -7,8 +7,6 @@
 
 <Toast position="tr" buttonDismiss="hidden" />
 
-<div class="fixed top-2 right-2">
-	<LightSwitch rounded="rounded-full" height="h-4" width="w-8" />
+<div class="h-[100dvh]">
+	<slot />
 </div>
-
-<slot />
