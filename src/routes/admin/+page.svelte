@@ -1,6 +1,16 @@
-<script>
-	import { enhance } from '$app/forms';
-	import NoDataImg from '$lib/assets/svg/NoDocuments.svg?raw';
+<script lang="ts">
+	import GroupCard from '$lib/modules/dashboard/GroupCard.svelte';
+	import NoGroupsData from '$lib/modules/dashboard/NoGroupsData.svelte';
+	import NotFoundGroupsData from '$lib/modules/dashboard/NotFoundGroupsData.svelte';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
+	let searchQuery = '';
+	let groups = data.groups;
+
+	$: groups = data.groups.filter((group) =>
+		group.title.toLowerCase().includes(searchQuery.toLowerCase())
+	);
 </script>
 
 <div class="flex flex-col gap-3">
@@ -10,13 +20,13 @@
 
 <div class="flex gap-8 mt-[52px]">
 	<div
-		class="hidden min-h-[65dvh] lg:flex lg:4/12 xl:3/12 pt-6 pb-5 px-4 bg-surface-100-800-token rounded-lg flex-col"
+		class="hidden min-h-[65dvh] max-h-[calc(100dvh_-_168px)] sticky top-4 lg:flex lg:4/12 xl:3/12 pt-6 pb-5 px-4 bg-surface-100-800-token rounded-lg flex-col"
 	>
 		<h3 class="h3 mb-2">Daftar Buku</h3>
 		<p class="text-sm text-secondary-700-200-token mb-3">
 			Kelola Content digital untuk buku anda dengan mudah
 		</p>
-		<form class="flex gap-2 mb-6" use:enhance method="POST">
+		<div class="flex gap-2 mb-6">
 			<div class="input-group h-8 lg:h-10 lg:input-group-divider grid-cols-[auto_1fr_auto]">
 				<div class="!hidden lg:!flex lg:input-group-shim"><i class="bx bx-search" /></div>
 				<input
@@ -25,6 +35,7 @@
 					placeholder="Cari"
 					name="q"
 					id="q"
+					bind:value={searchQuery}
 				/>
 			</div>
 			<div class="btn-icon h-8 w-8 lg:h-10 lg:w-10 flex-shrink-0 variant-filled-surface">
@@ -33,23 +44,24 @@
 			<div class="btn-icon h-8 lg:h-10 w-8 lg:w-10 flex-shrink-0 variant-filled-primary">
 				<i class="bx bx-plus text-sm lg:text-xl" />
 			</div>
-		</form>
-		<div
-			class="rounded-lg p-4 bg-surface-50-900-token flex-1 flex flex-col items-center justify-center my-auto gap-6"
-		>
-			{@html NoDataImg}
-			<div class="space-2 text-center max-w-[249px]">
-				<p class="font-medium">Belum terdapat buku</p>
-				<p class="text-sm text-secondary-700-200-token">
-					Tambahkan buku untuk agar dapat mengelola konten digital
-				</p>
-			</div>
-			<div class="btn variant-filled-primary cursor-pointer text-sm">
-				<i class="bx bx-plus mr-2" />Tambah buku
-			</div>
 		</div>
+		{#if groups.length === 0}
+			{#if searchQuery}
+				<NotFoundGroupsData />
+			{:else}
+				<NoGroupsData />
+			{/if}
+		{:else}
+			<div class="p-4 bg-surface-50-900-token rounded-lg h-full overflow-auto">
+				{#each groups as group, i}
+					<GroupCard title={group.title} />
+				{/each}
+			</div>
+		{/if}
 	</div>
-	<div class="w-full lg:w-8/12 xl:w-9/12 py-5 px-4 border rounded-lg border-surface-200-700-token">
+	<div
+		class="w-full flex-shrink-0 lg:w-8/12 xl:w-9/12 py-5 px-4 border rounded-lg border-surface-200-700-token"
+	>
 		Content book
 	</div>
 </div>
