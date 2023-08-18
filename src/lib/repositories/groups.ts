@@ -7,7 +7,7 @@ const dummyData: Group[] = [
 		title: 'Buku 1',
 		createdAt: new Date(),
 		updatedAt: new Date(),
-		attributes: { 'attribute 1': ['value 2'] }
+		attributes: { 'Attribute 1': ['value 2'], 'Tahun Terbit': ['2022'] }
 	},
 	{
 		id: '2',

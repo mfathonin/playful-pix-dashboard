@@ -1,13 +1,15 @@
 <script lang="ts">
 	import GroupCard from '$lib/modules/dashboard/GroupCard.svelte';
+	import GroupDetailHeader from '$lib/modules/dashboard/GroupDetailHeader.svelte';
 	import NoGroupsData from '$lib/modules/dashboard/NoGroupsData.svelte';
+	import NoSelectedGroup from '$lib/modules/dashboard/NoSelectedGroup.svelte';
 	import NotFoundGroupsData from '$lib/modules/dashboard/NotFoundGroupsData.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 	let searchQuery = '';
 	let groups = data.groups;
-
+	$: activeGroup = data.activeGroup;
 	$: groups = data.groups.filter((group) =>
 		group.title.toLowerCase().includes(searchQuery.toLowerCase())
 	);
@@ -52,9 +54,9 @@
 				<NoGroupsData />
 			{/if}
 		{:else}
-			<div class="p-4 bg-surface-50-900-token rounded-lg h-full overflow-auto">
+			<div class="p-4 bg-surface-50-900-token space-y-1 rounded-lg h-full overflow-auto">
 				{#each groups as group, i}
-					<GroupCard title={group.title} />
+					<GroupCard id={group.id} title={group.title} isSelected={activeGroup?.id === group.id} />
 				{/each}
 			</div>
 		{/if}
@@ -62,6 +64,12 @@
 	<div
 		class="w-full flex-shrink-0 lg:w-8/12 xl:w-9/12 py-5 px-4 border rounded-lg border-surface-200-700-token"
 	>
-		Content book
+		{#if activeGroup === undefined}
+			<div class="h-full">
+				<NoSelectedGroup />
+			</div>
+		{:else}
+			<GroupDetailHeader group={activeGroup} />
+		{/if}
 	</div>
 </div>
