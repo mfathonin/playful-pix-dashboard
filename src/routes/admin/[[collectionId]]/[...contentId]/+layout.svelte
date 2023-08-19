@@ -11,8 +11,7 @@
 	};
 
 	const registrationCodeModalComponent: ModalComponent = {
-		ref: ModalRegistrationCode,
-		slot: '<p>Modal Registration Code</p>'
+		ref: ModalRegistrationCode
 	};
 
 	const openRegistrationCodeModal: ModalSettings = {

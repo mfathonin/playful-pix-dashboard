@@ -55,8 +55,8 @@
 			{/if}
 		{:else}
 			<div class="p-4 bg-surface-50-900-token space-y-1 rounded-lg h-full overflow-auto">
-				{#each groups as group, i}
-					<GroupCard id={group.id} title={group.title} isSelected={activeGroup?.id === group.id} />
+				{#each groups as group}
+					<GroupCard {group} isSelected={activeGroup?.id === group.id} />
 				{/each}
 			</div>
 		{/if}
