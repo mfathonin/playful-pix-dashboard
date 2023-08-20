@@ -11,7 +11,7 @@
 	</div>
 	{#if group.attributes}
 		<div class="table-container">
-			<table class="table bg-transparent border-transparent">
+			<table class="table !bg-transparent border-transparent">
 				<tbody>
 					{#each Object.entries(group.attributes) as attr}
 						<tr class="table-row !border-transparent !bg-transparent">
