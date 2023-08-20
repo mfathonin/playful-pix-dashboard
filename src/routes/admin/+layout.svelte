@@ -24,12 +24,12 @@
 	<svelte:fragment slot="header">
 		<AppHearder />
 	</svelte:fragment>
-	<div class="container px-4 md:px-8 py-4">
+	<div class="container px-3 md:px-6 py-4">
 		<PageHeader />
 
 		<div class="flex gap-8 mt-[52px]">
 			<div
-				class="hidden min-h-[65dvh] max-h-[calc(100dvh_-_168px)] sticky top-4 lg:flex lg:4/12 xl:3/12 pt-6 pb-5 px-4 bg-surface-100-800-token rounded-lg flex-col"
+				class="hidden min-h-[65dvh] max-h-[calc(100dvh_-_168px)] sticky top-4 lg:flex lg:5/12 xl:4/12 pt-6 pb-5 px-4 bg-surface-100-800-token rounded-lg flex-col"
 			>
 				<GroupToolbar bind:value={searchQuery} />
 				{#if groups.length === 0}
@@ -49,7 +49,7 @@
 				{/if}
 			</div>
 			<div
-				class="w-full flex-shrink-0 lg:w-8/12 xl:w-9/12 py-5 px-4 border rounded-lg border-surface-200-700-token"
+				class="w-full lg:min-h-[calc(100dvh_-_168px)] flex flex-col flex-shrink-0 lg:w-7/12 xl:w-8/12 py-5 px-4 border rounded-lg border-surface-200-700-token"
 			>
 				<slot />
 			</div>
