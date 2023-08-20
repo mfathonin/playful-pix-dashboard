@@ -2,8 +2,8 @@ import type { BaseModel } from './base';
 import type { LinksModel } from './links';
 
 export interface ContentDigitalModel {
+	groupId: string;
 	title: string;
-	link: string;
 	generatedLink: LinksModel;
 }
 
