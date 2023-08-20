@@ -20,9 +20,7 @@
 				collection: collectionData,
 				formObj
 			},
-			width: 'w-[90dvw] md:w-full md:max-w-lg',
-			padding: 'p-2 md:p-4',
-			rounded: 'rounded-xl'
+			position: 'right'
 		});
 	};
 

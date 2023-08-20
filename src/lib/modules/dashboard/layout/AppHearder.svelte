@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ModalRegistrationCode from '$lib/modules/auth/ModalRegistrationCode.svelte';
 	import {
+		drawerStore,
 		modalStore,
 		popup,
 		type ModalComponent,
@@ -24,10 +25,22 @@
 		type: 'component',
 		component: registrationCodeModalComponent
 	};
+
+	const openNavigationDrawer = () => {
+		drawerStore.open({
+			id: 'navigationDrawer',
+			position: 'left'
+		});
+	};
 </script>
 
-<div class=" container mx-auto py-2 px-4 md:px-8 flex justify-between items-center">
-	<h2 class="h2">Logo</h2>
+<div class="container mx-auto py-2 px-3 lg:px-8 flex justify-between items-center">
+	<div class="flex gap-x-2 items-center">
+		<button class="lg:hidden btn-icon hover:variant-soft" on:click={() => openNavigationDrawer()}>
+			<i class="bx bx-menu-alt-left text-3xl" />
+		</button>
+		<h2 class="h2">Logo</h2>
+	</div>
 	<div class="flex gap-4 items-center">
 		<div
 			class="flex gap-4 items-center py-1 pl-1 pr-4 rounded-full cursor-pointer group hover:bg-surface-200-700-token"
