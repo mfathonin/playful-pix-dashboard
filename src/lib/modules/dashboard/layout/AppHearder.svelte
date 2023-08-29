@@ -34,7 +34,7 @@
 	};
 </script>
 
-<div class="container mx-auto py-2 px-3 lg:px-8 flex justify-between items-center">
+<div class="container mx-auto py-2 px-3 md:px-6 flex justify-between items-center">
 	<div class="flex gap-x-2 items-center">
 		<button class="lg:hidden btn-icon hover:variant-soft" on:click={() => openNavigationDrawer()}>
 			<i class="bx bx-menu-alt-left text-3xl" />
