@@ -14,7 +14,7 @@
 	const formObj = $page.data.form;
 	const openCollectionDetail = (collectionId: string) => {
 		drawerStore.open({
-			id: 'collectionDetail',
+			id: 'contentDetail',
 			meta: {
 				collectionId: collectionId,
 				collection: collectionData,

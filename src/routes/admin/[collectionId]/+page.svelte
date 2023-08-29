@@ -4,6 +4,7 @@
 	import NoContent from '$lib/modules/dashboard/emptyState/NoContent.svelte';
 	import NotFoundContent from '$lib/modules/dashboard/emptyState/NotFoundContent.svelte';
 	import GroupDetailHeader from '$lib/modules/dashboard/GroupDetailHeader.svelte';
+	import { drawerStore } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -15,6 +16,16 @@
 		if (serachQuery === '') return true;
 		return collection.title.toLowerCase().includes(serachQuery.toLowerCase());
 	});
+
+	const openCreateContentModal = () => {
+		drawerStore.open({
+			id: 'createContent',
+			meta: {
+				collectionId: activeGroup.id
+			},
+			position: 'right'
+		});
+	};
 </script>
 
 <GroupDetailHeader group={activeGroup} />
@@ -26,10 +37,12 @@
 				<i class="bx bx-cloud-download text-lg lg:text-xl" />
 				<span class="hidden xl:block text-base">Unduh Semua QR</span>
 			</button>
-			<button class="btn btn-sm w-9 h-9 lg:w-11 lg:h-11 xl:w-fit variant-filled-primary">
-				<i class="bx bx-plus text-lg lg:text-xl" /><span class="hidden xl:block text-base"
-					>Tambah konten</span
-				>
+			<button
+				class="btn btn-sm w-9 h-9 lg:w-11 lg:h-11 xl:w-fit variant-filled-primary"
+				on:click|preventDefault|stopPropagation={openCreateContentModal}
+			>
+				<i class="bx bx-plus text-lg lg:text-xl" />
+				<span class="hidden xl:block text-base">Tambah konten</span>
 			</button>
 		</div>
 	</div>

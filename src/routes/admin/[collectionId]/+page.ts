@@ -1,8 +1,9 @@
+import { editContentSchema } from '$lib/models/contents';
+import { getContentsByGroupId } from '$lib/repositories/contents';
 import { getGroupById } from '$lib/repositories/groups';
 import { redirect } from '@sveltejs/kit';
-import type { PageLoad } from './$types';
-import { editContentSchema, getContentsByGroupId } from '$lib/repositories/contents';
 import { superValidate } from 'sveltekit-superforms/server';
+import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ params }) => {
 	const { collectionId } = params;

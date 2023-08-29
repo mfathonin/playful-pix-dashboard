@@ -1,8 +1,7 @@
 import type { ContentDigital } from '$lib/models/contents';
-import { z } from 'zod';
 
 function dummyGenerator(groupId: string, title: string, targetUrl: string): ContentDigital {
-	const id = Math.random().toString(36).substring(7);
+	const id = Math.random().toString(16).substring(3, 11);
 	return {
 		id,
 		groupId,
@@ -38,12 +37,6 @@ const fetchContents = async (groupId: string): Promise<ContentDigital[]> => {
 		{ ...dummyGenerator('6', 'test15', 'https://www.google.com') }
 	].filter((content) => content.groupId === groupId);
 };
-
-export const editContentSchema = z.object({
-	title: z.string().nonempty('Judul harus diisi'),
-	targetUrl: z.string().nonempty('URL harus diisi').url('URL tidak valid'),
-	url: z.string().nonempty('Link harus diisi')
-});
 
 export const getContentsByGroupId = async (groupId: string) => {
 	const contents = await fetchContents(groupId);

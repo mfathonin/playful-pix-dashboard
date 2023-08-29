@@ -1,5 +1,17 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import NoDataImg from '$lib/assets/svg/NoDocuments.svg?raw';
+	import { drawerStore } from '@skeletonlabs/skeleton';
+
+	const openCreateContentModal = () => {
+		drawerStore.open({
+			id: 'createContent',
+			meta: {
+				collectionId: $page.data.collectionId
+			},
+			position: 'right'
+		});
+	};
 </script>
 
 <div
@@ -10,7 +22,10 @@
 		<p class="font-medium">Belum terdapat konten</p>
 		<p class="text-sm text-secondary-700-200-token">Tambahkan konten digital untuk buku anda</p>
 	</div>
-	<div class="btn variant-filled-primary cursor-pointer text-sm">
+	<button
+		class="btn variant-filled-primary cursor-pointer text-sm"
+		on:click={openCreateContentModal}
+	>
 		<i class="bx bx-plus mr-2" />Tambah konten
-	</div>
+	</button>
 </div>
