@@ -15,6 +15,16 @@ export interface ContentDigitalAnalytics {
 
 export interface ContentDigital extends ContentDigitalModel, ContentDigitalAnalytics, BaseModel {}
 
+export const createCollectionSchema = z.object({
+	name: z.string().nonempty('Nama koleksi harus diisi'),
+	attributes: z
+		.object({
+			key: z.string().nonempty('Nama properti harus diisi'),
+			value: z.string().nonempty('Nilai properti harus diisi')
+		})
+		.array()
+});
+
 export const createContentSchema = z.object({
 	collectionId: z.string().optional(),
 	title: z.string().nonempty('Judul harus diisi'),

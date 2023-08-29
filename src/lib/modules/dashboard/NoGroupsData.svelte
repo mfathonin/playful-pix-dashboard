@@ -1,5 +1,13 @@
 <script lang="ts">
 	import NoDataImg from '$lib/assets/svg/NoDocuments.svg?raw';
+	import { drawerStore } from '@skeletonlabs/skeleton';
+
+	const openCreateCollectionModal = () => {
+		drawerStore.open({
+			id: 'createCollection',
+			position: 'right'
+		});
+	};
 </script>
 
 <div
@@ -12,7 +20,10 @@
 			Tambahkan buku untuk agar dapat mengelola konten digital
 		</p>
 	</div>
-	<div class="btn variant-filled-primary cursor-pointer text-sm">
+	<button
+		class="btn variant-filled-primary cursor-pointer text-sm"
+		on:click={openCreateCollectionModal}
+	>
 		<i class="bx bx-plus mr-2" />Tambah buku
-	</div>
+	</button>
 </div>
