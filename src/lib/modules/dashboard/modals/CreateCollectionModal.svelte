@@ -4,11 +4,18 @@
 	import { drawerStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';
+	import FormErrorMessage from '$lib/compoenents/FormErrorMessage.svelte';
 	// import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	const isEditing = $drawerStore.meta.collectionId !== undefined;
 
-	const { form, enhance } = superForm<typeof createCollectionSchema>($drawerStore.meta.formObj, {
+	let errors: Record<string, any> = {};
+	const {
+		form,
+		validate,
+		errors: formErrors,
+		constraints
+	} = superForm<typeof createCollectionSchema>($drawerStore.meta.formObj, {
 		validators: createCollectionSchema,
 		taintedMessage: undefined,
 		dataType: 'json',
@@ -40,6 +47,42 @@
 			});
 		}
 	});
+
+	const validateForm = async () => {
+		const { errors: formErrors } = await validate();
+		errors = formErrors;
+	};
+
+	const handleSubmit = async () => {
+		const { valid: isValid, errors: formErrors, data } = await validate();
+		if (isValid) {
+			if (isEditing) await handleUpdate(data);
+			else await handleCreate(data);
+		} else {
+			console.error('invalid', formErrors);
+			errors = formErrors;
+		}
+	};
+	const handleCreate = async (data: (typeof createCollectionSchema)['_type']) => {
+		const res = await fetch('/api/v1/admin/collections', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+		drawerStore.close();
+	};
+	const handleUpdate = async (data: (typeof createCollectionSchema)['_type']) => {
+		const res = await fetch(`/api/v1/admin/collections/${$drawerStore.meta.collectionId}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+		drawerStore.close();
+	};
 </script>
 
 <div
@@ -66,9 +109,8 @@
 
 	<form
 		class="h-full flex flex-col gap-6"
-		action={'/api/v1/admin/collections' + (isEditing ? '/' + $drawerStore.meta.collectionId : '')}
-		method="POST"
-		use:enhance
+		on:submit|preventDefault|stopPropagation={handleSubmit}
+		on:change={validateForm}
 	>
 		<div class="space-y-4 flex-1">
 			<div class="flex flex-col gap-y-4">
@@ -81,6 +123,7 @@
 						class="input p-2 px-3"
 						bind:value={$form.name}
 					/>
+					<FormErrorMessage errors={errors.name} />
 				</label>
 				<!-- Attributes section. Dropdown menu with plus button for adding new attributes -->
 				<div class="flex justify-between items-center">
@@ -97,27 +140,35 @@
 				{:else}
 					{#key $form.attributes.length}
 						{#each $form.attributes as _, index}
-							<div class="flex gap-x-4 items-center">
-								<input
-									type="text"
-									placeholder="Masukan nama properti"
-									name="attributes"
-									class="input p-2 px-3"
-									bind:value={$form.attributes[index].key}
-								/>
-								<input
-									type="text"
-									placeholder="Masukan nilai properti"
-									name="attributes"
-									class="input p-2 px-3"
-									bind:value={$form.attributes[index].value}
-								/>
-								<button
-									class="btn-icon btn-icon-sm flex-shrink-0 w-8 h-8 text-lg hover:variant-soft"
-									on:click|preventDefault|stopPropagation={() => deleteAttribute(index)}
-								>
-									<i class="bx bx-trash" />
-								</button>
+							<div class="flex gap-x-4 items-start">
+								<label class="w-2/5 flex-shrink-0">
+									<input
+										type="text"
+										placeholder="Masukan nama properti"
+										name="attributes"
+										class="input p-2 px-3"
+										bind:value={$form.attributes[index].key}
+									/>
+									<FormErrorMessage errors={errors.attributes?.[index]?.key} />
+								</label>
+								<label class="flex-1">
+									<input
+										type="text"
+										placeholder="Masukan nilai properti"
+										name="attributes"
+										class="input p-2 px-3"
+										bind:value={$form.attributes[index].value}
+									/>
+									<FormErrorMessage errors={errors.attributes?.[index]?.value} />
+								</label>
+								<div class="flex h-11 justify-center items-center">
+									<button
+										class="btn-icon btn-icon-sm flex-shrink-0 w-8 h-8 text-lg hover:variant-soft"
+										on:click|preventDefault|stopPropagation={() => deleteAttribute(index)}
+									>
+										<i class="bx bx-trash" />
+									</button>
+								</div>
 							</div>
 						{/each}
 					{/key}
