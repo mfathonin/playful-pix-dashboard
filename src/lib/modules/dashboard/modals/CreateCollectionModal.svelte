@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { createCollectionSchema } from '$lib/models/contents';
+	import type { Collection } from '$lib/models/collections';
 	import { drawerStore } from '@skeletonlabs/skeleton';
+	import { onMount } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	// import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+
+	const isEditing = $drawerStore.meta.collectionId !== undefined;
 
 	const { form, enhance } = superForm<typeof createCollectionSchema>($drawerStore.meta.formObj, {
 		validators: createCollectionSchema,
@@ -24,13 +28,25 @@
 	const deleteAttribute = (index: number) => {
 		form.set({ attributes: $form.attributes.filter((_, i) => i !== index), name: $form.name });
 	};
+
+	onMount(() => {
+		if (isEditing) {
+			const { name, attributes } = $drawerStore.meta.collection as Collection;
+			form.set({
+				name,
+				attributes: attributes
+					? Object.entries(attributes).map((keyVal) => ({ key: keyVal[0], value: keyVal[1] }))
+					: []
+			});
+		}
+	});
 </script>
 
 <div
 	class="flex flex-col gap-y-6 py-6 px-5 bg-surface-50-900-token rounded-xl dark:border dark:border-surface-800 h-full"
 >
 	<div class="flex justify-between items-center">
-		<p class="h6">Tambah Koleksi</p>
+		<p class="h6">{isEditing ? 'Ubah' : 'Tambah'} Koleksi</p>
 		<button
 			class="btn-icon btn-icon-sm text-lg hover:variant-soft"
 			on:click|preventDefault|stopPropagation={() => drawerStore.close()}
@@ -40,13 +56,17 @@
 	</div>
 
 	<div class="space-y-1">
-		<p class="h6 font-semibold">Tambah koleksi</p>
-		<p class="text-sm">Lengkapi form dibawah untuk menambahkan koleksi baru</p>
+		<p class="h6 font-semibold">{isEditing ? 'Ubah' : 'Tambah'} koleksi</p>
+		{#if isEditing}
+			<p class="text-sm">Anda dapat mengubah informasi detail koleksi anda</p>
+		{:else}
+			<p class="text-sm">Lengkapi form dibawah untuk menambahkan koleksi baru</p>
+		{/if}
 	</div>
 
 	<form
 		class="h-full flex flex-col gap-6"
-		action="/api/v1/admin/collections"
+		action={'/api/v1/admin/collections' + (isEditing ? '/' + $drawerStore.meta.collectionId : '')}
 		method="POST"
 		use:enhance
 	>
@@ -106,6 +126,6 @@
 			</div>
 		</div>
 		<hr class="-mx-5" />
-		<button class="btn variant-filled w-full">Tambah koleksi</button>
+		<button class="btn variant-filled w-full">{isEditing ? 'Simpan' : 'Tambah'} koleksi</button>
 	</form>
 </div>

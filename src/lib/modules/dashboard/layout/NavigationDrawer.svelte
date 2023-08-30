@@ -3,14 +3,14 @@
 	import NotFoundGroupsData from '../NotFoundGroupsData.svelte';
 	import NoGroupsData from '../NoGroupsData.svelte';
 	import GroupCard from '../GroupCard.svelte';
-	import type { Group } from '$lib/models/groups';
+	import type { Collection } from '$lib/models/collections';
 
-	export let groups: Group[];
+	export let groups: Collection[];
 	export let collectionId: string;
 	export let value: string;
 
 	$: filteredGroups = groups.filter((group) =>
-		group.title.toLowerCase().includes(value.toLowerCase())
+		group.name.toLowerCase().includes(value.toLowerCase())
 	);
 </script>
 

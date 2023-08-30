@@ -1,15 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import type { Group } from '$lib/models/groups';
+	import { page } from '$app/stores';
+	import type { Collection } from '$lib/models/collections';
 	import {
+		drawerStore,
 		modalStore,
 		popup,
 		type ModalSettings,
 		type PopupSettings
 	} from '@skeletonlabs/skeleton';
 
-	export let group: Group;
-	const { id, title: groupTitle } = group;
+	export let group: Collection;
+	const { id, name: groupTitle } = group;
 	export let isSelected: boolean = false;
 	let isOpen: boolean = false;
 
@@ -29,6 +31,18 @@
 		state(event) {
 			isOpen = event.state;
 		}
+	};
+
+	const openDetailModal = () => {
+		drawerStore.open({
+			id: 'createCollection',
+			meta: {
+				formObj: $page.data.formCreateCollection,
+				collection: group,
+				collectionId: group.id
+			},
+			position: 'right'
+		});
 	};
 
 	const modalDeleteConfirmation = {
@@ -78,7 +92,7 @@
 		<button
 			class="btn btn-sm justify-start text-start rounded-none hover:text-token hover:variant-soft w-full"
 			on:click={() => {
-				// openEditModal();
+				openDetailModal();
 			}}
 		>
 			<i class="bx bx-edit" />

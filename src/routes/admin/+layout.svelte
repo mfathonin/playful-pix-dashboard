@@ -9,7 +9,7 @@
 	let searchQuery = '';
 	$: collectionId = data.collectionId ?? '';
 	$: groups = data.groups.filter((group) =>
-		group.title.toLowerCase().includes(searchQuery.toLowerCase())
+		group.name.toLowerCase().includes(searchQuery.toLowerCase())
 	);
 </script>
 
