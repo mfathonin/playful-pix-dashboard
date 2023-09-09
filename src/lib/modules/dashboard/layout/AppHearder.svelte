@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import ModalRegistrationCode from '$lib/modules/auth/ModalRegistrationCode.svelte';
 	import {
 		drawerStore,
@@ -10,6 +11,7 @@
 	} from '@skeletonlabs/skeleton';
 
 	import { Avatar, LightSwitch } from '@skeletonlabs/skeleton';
+	import type { User } from 'firebase/auth';
 
 	const openProfileMenu: PopupSettings = {
 		event: 'click',
@@ -32,6 +34,8 @@
 			position: 'left'
 		});
 	};
+
+	const { user } = $page.data.user as { user: User };
 </script>
 
 <div class="container mx-auto py-2 px-3 md:px-6 flex justify-between items-center">
@@ -47,12 +51,11 @@
 			use:popup={openProfileMenu}
 		>
 			<Avatar
-				initials="A"
-				fallback="A"
+				initials={user.email ?? 'UN'}
 				width="w-11 h-11"
 				border="border-2 border-surface-200-700-token group-hover:!border-primary-500"
 			/>
-			<p class="hidden md:flex">User email</p>
+			<p class="hidden md:flex">{user.email}</p>
 		</div>
 
 		<div class="card py-3 px-2 min-w-[200px] shadow-xl" data-popup="openProfileMenu">
@@ -66,7 +69,7 @@
 			<form class="hover:bg-surface-300-600-token p-2 rounded-lg">
 				<button
 					class="flex w-full text-start gap-x-2 items-center"
-					formaction="/api/v1/logout"
+					formaction="/auth?/logout"
 					formmethod="POST"
 				>
 					<i class="bx bx-log-out-circle bx-sm" /><span>Logout</span>
