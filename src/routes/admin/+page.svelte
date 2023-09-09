@@ -1,8 +1,7 @@
-<script>
-	import { enhance } from '$app/forms';
+<script lang="ts">
+	import NoSelectedGroup from '$lib/modules/dashboard/NoSelectedGroup.svelte';
 </script>
 
-<h1>Welcome to Dashboad</h1>
-<form method="post" action="/auth?/logout" use:enhance>
-	<button>Logout</button>
-</form>
+<div class="h-full">
+	<NoSelectedGroup />
+</div>

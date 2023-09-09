@@ -3,5 +3,5 @@
 </script>
 
 {#if errors}
-	<small class="text-error-500">{errors[0]}</small>
+	<small class="text-xs px-2 text-error-500">{errors[0]}</small>
 {/if}
