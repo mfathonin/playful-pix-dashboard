@@ -1,4 +1,4 @@
-import { generateRegistrationCode } from '$lib/server/auth';
+import { generateRegistrationCode } from '$lib/utils/helpers';
 import { json } from '@sveltejs/kit';
 
 export const GET = async () => {
