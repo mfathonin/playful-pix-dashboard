@@ -47,7 +47,7 @@
 	</div>
 	<div class="flex gap-4 items-center">
 		<div
-			class="flex gap-4 items-center py-1 pl-1 pr-4 rounded-full cursor-pointer group hover:bg-surface-200-700-token"
+			class="flex gap-4 items-center py-1 pl-1 pr-1 md:pr-4 rounded-full cursor-pointer group hover:bg-surface-200-700-token"
 			use:popup={openProfileMenu}
 		>
 			<Avatar
