@@ -8,9 +8,10 @@
 
 	let searchQuery = '';
 	$: collectionId = data.collectionId ?? '';
-	$: groups = data.groups.filter((group) =>
-		group.name.toLowerCase().includes(searchQuery.toLowerCase())
-	);
+	$: groups =
+		data.collections?.filter((group) =>
+			group.name.toLowerCase().includes(searchQuery.toLowerCase())
+		) || [];
 </script>
 
 <AppShell

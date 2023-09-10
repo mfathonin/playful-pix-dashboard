@@ -2,7 +2,7 @@ import type { BaseModel } from './base';
 
 export interface CollectionModel {
 	name: string;
-	attributes?: Record<string, string>;
+	attributes?: { key: string; value: string }[];
 }
 
 export interface Collection extends CollectionModel, BaseModel {}

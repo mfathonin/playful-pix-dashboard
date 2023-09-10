@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { createCollectionSchema } from '$lib/models/contents';
+	import { crudCollectionSchema } from '$lib/models/contents';
 	import type { Collection } from '$lib/models/collections';
 	import { drawerStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import FormErrorMessage from '$lib/compoenents/FormErrorMessage.svelte';
-	// import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	const isEditing = $drawerStore.meta.collectionId !== undefined;
 
@@ -14,9 +14,10 @@
 		form,
 		validate,
 		errors: formErrors,
-		constraints
-	} = superForm<typeof createCollectionSchema>($drawerStore.meta.formObj, {
-		validators: createCollectionSchema,
+		constraints,
+		enhance
+	} = superForm<typeof crudCollectionSchema>($drawerStore.meta.formObj, {
+		validators: crudCollectionSchema,
 		taintedMessage: undefined,
 		dataType: 'json',
 		onResult({ result }) {
@@ -41,9 +42,7 @@
 			const { name, attributes } = $drawerStore.meta.collection as Collection;
 			form.set({
 				name,
-				attributes: attributes
-					? Object.entries(attributes).map((keyVal) => ({ key: keyVal[0], value: keyVal[1] }))
-					: []
+				attributes: attributes || []
 			});
 		}
 	});
@@ -63,7 +62,7 @@
 			errors = formErrors;
 		}
 	};
-	const handleCreate = async (data: (typeof createCollectionSchema)['_type']) => {
+	const handleCreate = async (data: (typeof crudCollectionSchema)['_type']) => {
 		const res = await fetch('/api/v1/admin/collections', {
 			method: 'POST',
 			headers: {
@@ -73,7 +72,7 @@
 		});
 		drawerStore.close();
 	};
-	const handleUpdate = async (data: (typeof createCollectionSchema)['_type']) => {
+	const handleUpdate = async (data: (typeof crudCollectionSchema)['_type']) => {
 		const res = await fetch(`/api/v1/admin/collections/${$drawerStore.meta.collectionId}`, {
 			method: 'PATCH',
 			headers: {
@@ -107,11 +106,9 @@
 		{/if}
 	</div>
 
-	<form
-		class="h-full flex flex-col gap-6"
-		on:submit|preventDefault|stopPropagation={handleSubmit}
-		on:change={validateForm}
-	>
+	<form class="h-full flex flex-col gap-6" action="?/collections" method="POST" use:enhance>
+		<!-- on:submit|preventDefault|stopPropagation={handleSubmit} -->
+		<!-- on:change={validateForm} -->
 		<div class="space-y-4 flex-1">
 			<div class="flex flex-col gap-y-4">
 				<label class="text-base space-y-1">
@@ -173,7 +170,7 @@
 						{/each}
 					{/key}
 				{/if}
-				<!-- <SuperDebug data={$form} /> -->
+				<SuperDebug data={$form} />
 			</div>
 		</div>
 		<hr class="-mx-5" />
