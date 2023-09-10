@@ -35,7 +35,7 @@
 		});
 	};
 
-	const { user } = $page.data.user as { user: User };
+	const user = $page.data.user as User;
 </script>
 
 <div class="container mx-auto py-2 px-3 md:px-6 flex justify-between items-center">
