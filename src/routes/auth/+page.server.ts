@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { Actions } from '../$types';
-import { login, registerAccount } from '$lib/server/auth';
+import { login, registerAccount } from '$lib/repositories/auth';
 
 export const actions: Actions = {
 	login: async ({ cookies, request }) => {
