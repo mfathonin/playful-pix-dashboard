@@ -49,10 +49,20 @@
 		type: 'confirm',
 		title: 'Hapus Buku',
 		body: `Apakah anda yakin ingin menghapus buku dengan judul: ${groupTitle}?`,
-		response(confirm) {
+		meta: {
+			collectionId: id
+		},
+		async response(confirm) {
 			if (confirm) {
-				console.log('delete', group);
-				// deleteGroup();
+				const data = new FormData();
+				data.append('id', group.id);
+				data.append('delete', 'true');
+				const response = await fetch('/admin?/collections', {
+					method: 'POST',
+					body: data
+				});
+
+				goto(location.pathname, { keepFocus: true, invalidateAll: true });
 			}
 		}
 	} as ModalSettings;

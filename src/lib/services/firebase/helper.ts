@@ -7,7 +7,8 @@ import {
 	getDocs,
 	serverTimestamp,
 	updateDoc,
-	type DocumentData
+	type DocumentData,
+	deleteDoc
 } from 'firebase/firestore';
 import { FirebaseDB } from './firebase';
 
@@ -65,4 +66,10 @@ export const updateDocument = async <T extends DocumentData>(
 		documentData,
 		updatedAt: Timestamp.now()
 	} as unknown as T & BaseModel;
+};
+
+// Function to delete an existing document in a collection
+export const deleteDocument = async (collectionName: string, documentId: string): Promise<void> => {
+	const documentRef = doc(collection(FirebaseDB, collectionName), documentId);
+	await deleteDoc(documentRef);
 };

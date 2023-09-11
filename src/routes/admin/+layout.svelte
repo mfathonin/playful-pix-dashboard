@@ -9,7 +9,7 @@
 	let searchQuery = '';
 	$: collectionId = data.collectionId ?? '';
 	$: collections =
-		data.collections?.filter((collection) =>
+		data.collections.filter((collection) =>
 			collection.name.toLowerCase().includes(searchQuery.toLowerCase())
 		) || [];
 </script>
@@ -29,7 +29,9 @@
 			<div
 				class="hidden min-h-[65dvh] max-h-[calc(100dvh_-_168px)] sticky top-4 lg:flex lg:5/12 xl:4/12 pt-6 pb-5 px-4 bg-surface-100-800-token rounded-lg flex-col"
 			>
-				<NavigationDrawer bind:value={searchQuery} {collections} {collectionId} />
+				{#key collections}
+					<NavigationDrawer bind:value={searchQuery} {collections} {collectionId} />
+				{/key}
 			</div>
 			<div
 				class="w-full lg:min-h-[calc(100dvh_-_168px)] flex flex-col flex-shrink-0 lg:w-7/12 xl:w-8/12 py-5 px-4 border rounded-lg border-surface-200-700-token"
