@@ -11,7 +11,6 @@ export const actions: Actions = {
 	collections: async ({ request }) => {
 		const form = await superValidate(request, crudCollectionSchema);
 
-		console.log(form.data);
 		if (!form.data.id) {
 			// create
 			const { name, attributes } = form.data;

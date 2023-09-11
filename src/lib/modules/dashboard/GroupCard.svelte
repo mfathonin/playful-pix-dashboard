@@ -79,7 +79,7 @@
 	<button
 		class="btn-icon btn-sm h-8 w-8 {isOpen
 			? 'flex variant-soft'
-			: 'hidden'} group-hover:flex hover:variant-soft"
+			: 'lg:hidden'} group-hover:flex hover:variant-soft"
 		use:popup={popupMenuSettings}
 		on:click|preventDefault|stopPropagation={() => {}}
 	>

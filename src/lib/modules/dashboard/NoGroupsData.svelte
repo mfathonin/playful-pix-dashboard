@@ -1,10 +1,14 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import NoDataImg from '$lib/assets/svg/NoDocuments.svg?raw';
 	import { drawerStore } from '@skeletonlabs/skeleton';
 
 	const openCreateCollectionModal = () => {
 		drawerStore.open({
 			id: 'createCollection',
+			meta: {
+				formObj: $page.data.formCreateCollection
+			},
 			position: 'right'
 		});
 	};

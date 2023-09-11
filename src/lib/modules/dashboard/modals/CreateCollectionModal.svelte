@@ -1,28 +1,21 @@
 <script lang="ts">
 	import { crudCollectionSchema } from '$lib/models/contents';
 	import type { Collection } from '$lib/models/collections';
-	import { drawerStore } from '@skeletonlabs/skeleton';
+	import { drawerStore, toastStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import FormErrorMessage from '$lib/compoenents/FormErrorMessage.svelte';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+	// import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	const isEditing = $drawerStore.meta.collectionId !== undefined;
 
-	let errors: Record<string, any> = {};
-	const {
-		form,
-		validate,
-		errors: formErrors,
-		constraints,
-		enhance
-	} = superForm<typeof crudCollectionSchema>($drawerStore.meta.formObj, {
+	const { form, errors, enhance, submitting, message, allErrors } = superForm<
+		typeof crudCollectionSchema
+	>($drawerStore.meta.formObj, {
 		validators: crudCollectionSchema,
 		taintedMessage: undefined,
 		dataType: 'json',
 		onResult({ result }) {
-			console.log(1349, result);
-
 			if (result.status === 200) {
 				drawerStore.close();
 			}
@@ -30,58 +23,30 @@
 	});
 
 	const addAttributes = () => {
-		form.set({ attributes: [...$form.attributes, { key: '', value: '' }], name: $form.name });
+		form.set({
+			...$form,
+			attributes: [...$form.attributes, { key: '', value: '' }]
+		});
 	};
 
 	const deleteAttribute = (index: number) => {
-		form.set({ attributes: $form.attributes.filter((_, i) => i !== index), name: $form.name });
+		form.set({
+			...$form,
+			attributes: $form.attributes.filter((_, i) => i !== index)
+		});
 	};
 
 	onMount(() => {
+		form.set({ id: undefined, name: '', attributes: [] });
 		if (isEditing) {
 			const { name, attributes } = $drawerStore.meta.collection as Collection;
 			form.set({
+				id: $drawerStore.meta.collectionId,
 				name,
 				attributes: attributes || []
 			});
 		}
 	});
-
-	const validateForm = async () => {
-		const { errors: formErrors } = await validate();
-		errors = formErrors;
-	};
-
-	const handleSubmit = async () => {
-		const { valid: isValid, errors: formErrors, data } = await validate();
-		if (isValid) {
-			if (isEditing) await handleUpdate(data);
-			else await handleCreate(data);
-		} else {
-			console.error('invalid', formErrors);
-			errors = formErrors;
-		}
-	};
-	const handleCreate = async (data: (typeof crudCollectionSchema)['_type']) => {
-		const res = await fetch('/api/v1/admin/collections', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		});
-		drawerStore.close();
-	};
-	const handleUpdate = async (data: (typeof crudCollectionSchema)['_type']) => {
-		const res = await fetch(`/api/v1/admin/collections/${$drawerStore.meta.collectionId}`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		});
-		drawerStore.close();
-	};
 </script>
 
 <div
@@ -106,9 +71,7 @@
 		{/if}
 	</div>
 
-	<form class="h-full flex flex-col gap-6" action="?/collections" method="POST" use:enhance>
-		<!-- on:submit|preventDefault|stopPropagation={handleSubmit} -->
-		<!-- on:change={validateForm} -->
+	<form class="h-full flex flex-col gap-6" action="/admin?/collections" method="POST" use:enhance>
 		<div class="space-y-4 flex-1">
 			<div class="flex flex-col gap-y-4">
 				<label class="text-base space-y-1">
@@ -120,9 +83,9 @@
 						class="input p-2 px-3"
 						bind:value={$form.name}
 					/>
-					<FormErrorMessage errors={errors.name} />
+					<FormErrorMessage errors={$errors.name} />
 				</label>
-				<!-- Attributes section. Dropdown menu with plus button for adding new attributes -->
+				<!-- TODO: Attributes section. Dropdown menu with plus button for adding new attributes -->
 				<div class="flex justify-between items-center">
 					<p class="text-base font-semibold">Properti</p>
 					<button
@@ -146,7 +109,7 @@
 										class="input p-2 px-3"
 										bind:value={$form.attributes[index].key}
 									/>
-									<FormErrorMessage errors={errors.attributes?.[index]?.key} />
+									<FormErrorMessage errors={$errors.attributes?.[index]?.key} />
 								</label>
 								<label class="flex-1">
 									<input
@@ -156,7 +119,7 @@
 										class="input p-2 px-3"
 										bind:value={$form.attributes[index].value}
 									/>
-									<FormErrorMessage errors={errors.attributes?.[index]?.value} />
+									<FormErrorMessage errors={$errors.attributes?.[index]?.value} />
 								</label>
 								<div class="flex h-11 justify-center items-center">
 									<button
@@ -170,10 +133,12 @@
 						{/each}
 					{/key}
 				{/if}
-				<SuperDebug data={$form} />
+				<!-- <SuperDebug data={$form} /> -->
 			</div>
 		</div>
 		<hr class="-mx-5" />
-		<button class="btn variant-filled w-full">{isEditing ? 'Simpan' : 'Tambah'} koleksi</button>
+		<button disabled={$submitting} class="btn variant-filled w-full">
+			{isEditing ? 'Simpan' : 'Tambah'} koleksi
+		</button>
 	</form>
 </div>

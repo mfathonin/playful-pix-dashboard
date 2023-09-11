@@ -53,6 +53,7 @@ export const updateDocument = async <T extends DocumentData>(
 	documentId: string,
 	documentData: T
 ): Promise<T & BaseModel> => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { id, ...documentWithoutId } = documentData;
 	const documentRef = doc(collection(FirebaseDB, collectionName), documentId);
 	await updateDoc(documentRef, {
