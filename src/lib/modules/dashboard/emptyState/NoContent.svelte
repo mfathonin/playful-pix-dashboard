@@ -7,6 +7,7 @@
 		drawerStore.open({
 			id: 'createContent',
 			meta: {
+				formObj: $page.data.formCreateContent,
 				collectionId: $page.data.collectionId
 			},
 			position: 'right'
