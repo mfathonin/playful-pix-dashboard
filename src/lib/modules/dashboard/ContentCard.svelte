@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ContentDigital } from '$lib/models/contents';
 	import {
@@ -28,10 +29,21 @@
 		type: 'confirm',
 		title: 'Hapus Konten',
 		body: `Apakah anda yakin ingin menghapus konten dengan judul: ${contentData.title}?`,
-		response(confirm) {
+		async response(confirm) {
 			if (confirm) {
-				console.log('delete', contentData);
-				// deleteGroup();
+				const data = new FormData();
+				data.append('id', contentData.id);
+				data.append('delete', 'true');
+				try {
+					await fetch('/admin?/contents', {
+						method: 'POST',
+						body: data
+					});
+				} catch (error) {
+					console.error(error);
+				}
+
+				goto(location.pathname, { keepFocus: true, invalidateAll: true });
 			}
 		}
 	};

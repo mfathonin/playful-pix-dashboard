@@ -2,16 +2,18 @@ import type { BaseModel } from '$lib/models/base';
 import type { ContentDigital, ContentDigitalModel } from '$lib/models/contents';
 import {
 	addNewDocument,
+	deleteDocument,
 	getDocumentById,
 	getDocumentsByQuery,
 	updateDocument
 } from '$lib/services/firebase/helper';
+import { FC_CONTENTS } from '$lib/utils';
 import { where } from 'firebase/firestore';
 
 export const getContentsByGroupId = async (collectionId: string) => {
 	try {
 		const contents = await getDocumentsByQuery<ContentDigital>(
-			'contents',
+			FC_CONTENTS,
 			where('collectionId', '==', collectionId)
 		);
 		return contents;
@@ -23,7 +25,7 @@ export const getContentsByGroupId = async (collectionId: string) => {
 
 export const getContentsById = async (id: string): Promise<ContentDigital | undefined> => {
 	try {
-		const content = await getDocumentById<ContentDigital>('contents', id);
+		const content = await getDocumentById<ContentDigital>(FC_CONTENTS, id);
 		return content;
 	} catch (error) {
 		console.error(error);
@@ -33,7 +35,7 @@ export const getContentsById = async (id: string): Promise<ContentDigital | unde
 
 export const createContent = async (content: ContentDigitalModel) => {
 	try {
-		return await addNewDocument<ContentDigitalModel>('contents', content);
+		return await addNewDocument<ContentDigitalModel>(FC_CONTENTS, content);
 	} catch (error) {
 		console.error(error);
 		throw error;
@@ -45,7 +47,16 @@ export const updateContentById = async (
 	content: ContentDigitalModel
 ): Promise<ContentDigitalModel & BaseModel> => {
 	try {
-		return await updateDocument<ContentDigitalModel>('contents', id, content);
+		return await updateDocument<ContentDigitalModel>(FC_CONTENTS, id, content);
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
+export const deleteContentById = async (id: string) => {
+	try {
+		return await deleteDocument(FC_CONTENTS, id);
 	} catch (error) {
 		console.error(error);
 		throw error;

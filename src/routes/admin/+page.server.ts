@@ -7,7 +7,12 @@ import {
 	getCollectionById,
 	updateCollectionById
 } from '$lib/repositories/collections';
-import { createContent, getContentsById, updateContentById } from '$lib/repositories/contents';
+import {
+	createContent,
+	deleteContentById,
+	getContentsById,
+	updateContentById
+} from '$lib/repositories/contents';
 import { collectionsStore } from '$lib/stores/collections';
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import { message, superValidate } from 'sveltekit-superforms/server';
@@ -97,7 +102,13 @@ export const actions: Actions = {
 		} else {
 			if (formData.has('delete')) {
 				// Delete ones
-				console.log('delete ones', id);
+				try {
+					await deleteContentById(id);
+				} catch (err) {
+					console.error('error on deleteContent', err);
+					return fail(500, { form });
+				}
+				throw redirect(301, '/');
 			} else {
 				// Update ones
 				const content = await getContentsById(id);
