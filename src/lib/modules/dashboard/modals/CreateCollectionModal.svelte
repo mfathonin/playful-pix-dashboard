@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { crudCollectionSchema } from '$lib/models/contents';
-	import type { Collection } from '$lib/models/collections';
+	import { crudCollectionSchema, type Collection } from '$lib/models/collections';
 	import { drawerStore, toastStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';

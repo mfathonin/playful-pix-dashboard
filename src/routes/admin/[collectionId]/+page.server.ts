@@ -1,4 +1,3 @@
-import { editContentSchema } from '$lib/models/contents';
 import { getCollections } from '$lib/repositories/collections';
 import { getContentsByGroupId } from '$lib/repositories/contents';
 import { collectionsStore } from '$lib/stores/collections';
@@ -6,6 +5,7 @@ import { redirect } from '@sveltejs/kit';
 import { get } from 'svelte/store';
 import { superValidate } from 'sveltekit-superforms/server';
 import type { PageServerLoad } from './$types';
+import { crudContentSchema } from '$lib/models/contents';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const { collectionId } = params;
@@ -29,7 +29,7 @@ export const load: PageServerLoad = async ({ params }) => {
 
 	if (collection === undefined) throw redirect(303, '/admin');
 
-	const formCreateContent = superValidate(editContentSchema);
+	const formCreateContent = superValidate(crudContentSchema);
 
-	return { collection, formCreateContent: formCreateContent, contents, collectionId };
+	return { collection, collectionId, formCreateContent, contents };
 };

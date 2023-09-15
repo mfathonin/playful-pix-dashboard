@@ -1,10 +1,9 @@
 import { getCollections } from '$lib/repositories/collections';
 import { superValidate } from 'sveltekit-superforms/server';
 import type { LayoutServerLoad } from './$types';
-import { crudCollectionSchema } from '$lib/models/contents';
 import { collectionsStore } from '$lib/stores/collections';
 import { get } from 'svelte/store';
-import type { Collection } from '$lib/models/collections';
+import { crudCollectionSchema, type Collection } from '$lib/models/collections';
 
 export const load = (async ({ params, locals }) => {
 	const user = locals.user;

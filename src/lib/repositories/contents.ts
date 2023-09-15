@@ -1,45 +1,53 @@
-import type { ContentDigital } from '$lib/models/contents';
+import type { BaseModel } from '$lib/models/base';
+import type { ContentDigital, ContentDigitalModel } from '$lib/models/contents';
+import {
+	addNewDocument,
+	getDocumentById,
+	getDocumentsByQuery,
+	updateDocument
+} from '$lib/services/firebase/helper';
+import { where } from 'firebase/firestore';
 
-function dummyGenerator(groupId: string, title: string, targetUrl: string): ContentDigital {
-	const id = Math.random().toString(16).substring(3, 11);
-	return {
-		id,
-		groupId,
-		createdAt: new Date(),
-		updatedAt: new Date(),
-		title,
-		generatedLink: {
-			targetUrl,
-			fallbackUrl: 'http://localhost:5173',
-			url: id
-		},
-		views: 0,
-		visitors: 0
-	};
-}
-// dummy fetcher for group contents
-const fetchContents = async (groupId: string): Promise<ContentDigital[]> => {
-	return [
-		{ ...dummyGenerator('1', 'test1', 'https://www.google.com') },
-		{ ...dummyGenerator('1', 'test2', 'https://www.google.com') },
-		{ ...dummyGenerator('1', 'test3', 'https://www.google.com') },
-		{ ...dummyGenerator('1', 'test4', 'https://www.google.com') },
-		{ ...dummyGenerator('1', 'test5', 'https://www.google.com') },
-		{ ...dummyGenerator('1', 'test6', 'https://www.google.com') },
-		{ ...dummyGenerator('2', 'test7', 'https://www.google.com') },
-		{ ...dummyGenerator('2', 'test8', 'https://www.google.com') },
-		{ ...dummyGenerator('2', 'test9', 'https://www.google.com') },
-		{ ...dummyGenerator('3', 'test10', 'https://www.google.com') },
-		{ ...dummyGenerator('3', 'test11', 'https://www.google.com') },
-		{ ...dummyGenerator('6', 'test12', 'https://www.google.com') },
-		{ ...dummyGenerator('6', 'test13', 'https://www.google.com') },
-		{ ...dummyGenerator('6', 'test14', 'https://www.google.com') },
-		{ ...dummyGenerator('6', 'test15', 'https://www.google.com') }
-	].filter((content) => content.groupId === groupId);
+export const getContentsByGroupId = async (collectionId: string) => {
+	try {
+		const contents = await getDocumentsByQuery<ContentDigital>(
+			'contents',
+			where('collectionId', '==', collectionId)
+		);
+		return contents;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
 };
 
-export const getContentsByGroupId = async (groupId: string) => {
-	const contents = await fetchContents(groupId);
+export const getContentsById = async (id: string): Promise<ContentDigital | undefined> => {
+	try {
+		const content = await getDocumentById<ContentDigital>('contents', id);
+		return content;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
 
-	return contents;
+export const createContent = async (content: ContentDigitalModel) => {
+	try {
+		return await addNewDocument<ContentDigitalModel>('contents', content);
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
+export const updateContentById = async (
+	id: string,
+	content: ContentDigitalModel
+): Promise<ContentDigitalModel & BaseModel> => {
+	try {
+		return await updateDocument<ContentDigitalModel>('contents', id, content);
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
 };

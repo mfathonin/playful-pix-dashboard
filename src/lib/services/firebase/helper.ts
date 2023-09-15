@@ -8,7 +8,10 @@ import {
 	serverTimestamp,
 	updateDoc,
 	type DocumentData,
-	deleteDoc
+	deleteDoc,
+	QueryConstraint,
+	query,
+	getDoc
 } from 'firebase/firestore';
 import { FirebaseDB } from './firebase';
 
@@ -25,6 +28,44 @@ export const getAllDocuments = async <T extends DocumentData>(
 			updatedAt: doc.data().updatedAt.toDate()
 		} as unknown as T & BaseModel;
 	});
+};
+
+// Function to get all documents in a collection
+export const getDocumentsByQuery = async <T extends DocumentData>(
+	collectionName: string,
+	...filter: QueryConstraint[]
+): Promise<T[]> => {
+	const collectionRef = collection(FirebaseDB, collectionName);
+	const collectionQuery = query(collectionRef, ...filter);
+	const querySnapshot = await getDocs(collectionQuery);
+	return querySnapshot.docs.map(
+		(doc) =>
+			({
+				id: doc.id,
+				...doc.data(),
+				createdAt: doc.data().createdAt.toDate(),
+				updatedAt: doc.data().updatedAt.toDate()
+			} as unknown as T & BaseModel)
+	);
+};
+
+// Function to get a document by ID in a collection
+export const getDocumentById = async <T extends DocumentData>(
+	collectionName: string,
+	documentId: string
+): Promise<(T & BaseModel) | undefined> => {
+	const collectionRef = collection(FirebaseDB, collectionName);
+	const documentRef = doc(collectionRef, documentId);
+	const documentSnapshot = await getDoc(documentRef);
+
+	return documentSnapshot.exists()
+		? ({
+				id: documentSnapshot.id,
+				...documentSnapshot.data(),
+				createdAt: documentSnapshot.data().createdAt.toDate(),
+				updatedAt: documentSnapshot.data().updatedAt.toDate()
+		  } as unknown as T & BaseModel)
+		: undefined;
 };
 
 // Function to add a new document to a collection

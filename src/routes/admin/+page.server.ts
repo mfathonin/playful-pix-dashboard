@@ -1,10 +1,13 @@
-import { crudCollectionSchema } from '$lib/models/contents';
+import { env } from '$env/dynamic/private';
+import { crudCollectionSchema } from '$lib/models/collections';
+import { crudContentSchema } from '$lib/models/contents';
 import {
 	createCollection,
 	deleteCollectionById,
 	getCollectionById,
 	updateCollectionById
 } from '$lib/repositories/collections';
+import { createContent, getContentsById, updateContentById } from '$lib/repositories/contents';
 import { collectionsStore } from '$lib/stores/collections';
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import { message, superValidate } from 'sveltekit-superforms/server';
@@ -66,5 +69,69 @@ export const actions: Actions = {
 				}
 			}
 		}
+	},
+	contents: async ({ request }) => {
+		const formData = await request.formData();
+		const form = await superValidate(formData, crudContentSchema);
+
+		const { id, collectionId, title, targetUrl, generatedUrl } = form.data;
+		if (!id) {
+			// Create ones
+			const generatedUrl = generateUrl(title);
+			try {
+				await createContent({
+					collectionId,
+					title,
+					link: {
+						targetUrl,
+						url: generatedUrl.toLocaleLowerCase(),
+						fallbackUrl: env.FALLBACK_URL || 'http://localhost:5173/download-apps'
+					}
+				});
+
+				return message(form, 'Content created');
+			} catch (error) {
+				console.error('error on createContent', error);
+				return fail(500, { form });
+			}
+		} else {
+			if (formData.has('delete')) {
+				// Delete ones
+				console.log('delete ones', id);
+			} else {
+				// Update ones
+				const content = await getContentsById(id);
+				if (content === undefined) throw error(404, 'Content not found');
+				try {
+					await updateContentById(id, {
+						title,
+						link: {
+							targetUrl,
+							url:
+								generatedUrl && content.link.url !== generatedUrl ? generatedUrl : content.link.url,
+							fallbackUrl: env.FALLBACK_URL || 'localhost:5173/download-apps'
+						},
+						collectionId
+					});
+					return message(form, 'Content updated');
+				} catch (error) {
+					console.error('error on updateContent', error);
+					return fail(500, { form });
+				}
+			}
+		}
 	}
+};
+
+const generateUrl = (title: string) => {
+	const len = title.length;
+	const words = title.toLocaleLowerCase().replace('-', ' ').split(' ');
+	if (len <= 15) return words.join('-');
+
+	const url =
+		words.length > 2
+			? (words[0][0] + '-' + words[1][0] + '-' + words.slice(2).join('-')).slice(0, 20)
+			: words[0].slice(0, 20);
+
+	return url[url.length - 1] === '-' ? url.slice(0, url.length - 1) : url;
 };

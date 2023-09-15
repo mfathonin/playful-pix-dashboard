@@ -12,10 +12,10 @@
 	$: contents = data.contents;
 
 	let serachQuery = '';
-	$: filteredCollections =
-		contents?.filter((collection) => {
+	$: filteredContents =
+		contents?.filter((content) => {
 			if (serachQuery === '') return true;
-			return collection.title.toLowerCase().includes(serachQuery.toLowerCase());
+			return content.title.toLowerCase().includes(serachQuery.toLowerCase());
 		}) || [];
 
 	const openCreateContentModal = () => {
@@ -51,15 +51,15 @@
 {/if}
 <hr class="!border-surface-200-700-token mt-5" />
 {#if contents && contents.length > 0}
-	{#key filteredCollections.length}
-		{#if filteredCollections.length === 0}
+	{#key filteredContents.length}
+		{#if filteredContents.length === 0}
 			<div class="flex-grow flex items-center justify-center">
 				<NotFoundContent />
 			</div>
 		{:else}
 			<div class="space-y-3 mt-8">
-				{#each filteredCollections as collectionData}
-					<ContentCard {collectionData} />
+				{#each filteredContents as contentData}
+					<ContentCard {contentData} />
 				{/each}
 			</div>
 		{/if}
