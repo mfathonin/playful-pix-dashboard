@@ -24,7 +24,7 @@
 			collectionId: $drawerStore.meta.collectionId,
 			title: '',
 			targetUrl: '',
-			generatedUrl: ''
+			generatedUrl: 'willBeGenerated' // dummy for fullfill the schema
 		});
 	});
 </script>
@@ -59,6 +59,8 @@
 					<input type="text" name="targetUrl" class="input p-2 px-3" bind:value={$form.targetUrl} />
 					<FormErrorMessage errors={$errors.targetUrl} />
 				</label>
+				<!-- Dummy for fullfil the schema -->
+				<input type="hidden" name="generatedUrl" bind:value={$form.generatedUrl} />
 			</div>
 		</div>
 		<hr />
