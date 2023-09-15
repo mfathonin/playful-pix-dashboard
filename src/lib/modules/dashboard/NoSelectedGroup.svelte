@@ -7,7 +7,9 @@
 >
 	{@html NoDataImg}
 	<div class="space-2 text-center max-w-[249px]">
-		<p class="font-medium">Buku tidak ditemukan</p>
-		<p class="text-sm text-secondary-700-200-token">Cobalah mencari dengan kata kunci yang lain</p>
+		<p class="font-medium">Pilih salah satu koleksi</p>
+		<p class="text-sm text-secondary-700-200-token">
+			Pilih koleksi yang ada untuk dikelola. Atau buat koleksi baru
+		</p>
 	</div>
 </div>

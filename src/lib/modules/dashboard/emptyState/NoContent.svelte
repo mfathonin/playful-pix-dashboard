@@ -21,7 +21,7 @@
 	{@html NoDataImg}
 	<div class="space-2 text-center max-w-[249px]">
 		<p class="font-medium">Belum terdapat konten</p>
-		<p class="text-sm text-secondary-700-200-token">Tambahkan konten digital untuk buku anda</p>
+		<p class="text-sm text-secondary-700-200-token">Tambahkan konten digital untuk koleksi anda</p>
 	</div>
 	<button
 		class="btn variant-filled-primary cursor-pointer text-sm"

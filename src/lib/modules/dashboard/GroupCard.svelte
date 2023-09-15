@@ -106,7 +106,7 @@
 			}}
 		>
 			<i class="bx bx-edit" />
-			<span class="ml-2">Edit Buku</span>
+			<span class="ml-2">Edit Koleksi</span>
 		</button>
 		<button
 			class="btn btn-sm justify-start text-start rounded-none hover:text-token hover:variant-soft w-full"
@@ -115,7 +115,7 @@
 			}}
 		>
 			<i class="bx bx-trash" />
-			<span class="ml-2">Hapus Buku</span>
+			<span class="ml-2">Hapus Koleksi</span>
 		</button>
 	</div>
 </div>
