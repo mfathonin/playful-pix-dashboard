@@ -1,27 +1,32 @@
 <script lang="ts">
 	import FormErrorMessage from '$lib/compoenents/FormErrorMessage.svelte';
-	import { createContentSchema } from '$lib/models/contents';
+	import { crudContentSchema } from '$lib/models/contents';
 	import { drawerStore } from '@skeletonlabs/skeleton';
+	import { onMount } from 'svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 
-	const { form, enhance, errors } = superForm<typeof createContentSchema>(
-		$drawerStore.meta.formObj,
-		{
-			validators: createContentSchema,
-			taintedMessage: undefined,
-			onSubmit({ formData, cancel }) {
-				const collectionId = formData.get('collectionId');
-				if (!collectionId) cancel();
-			},
-			onResult({ result }) {
-				console.log(1349, result);
-
-				if (result.status === 200) {
-					drawerStore.close();
-				}
+	const { form, enhance, errors } = superForm<typeof crudContentSchema>($drawerStore.meta.formObj, {
+		validators: crudContentSchema,
+		taintedMessage: undefined,
+		onSubmit({ formData, cancel }) {
+			const collectionId = formData.get('collectionId');
+			if (!collectionId) cancel();
+		},
+		onResult({ result }) {
+			if (result.status === 200) {
+				drawerStore.close();
 			}
 		}
-	);
+	});
+
+	onMount(() => {
+		form.set({
+			collectionId: $drawerStore.meta.collectionId,
+			title: '',
+			targetUrl: '',
+			generatedUrl: 'willBeGenerated' // dummy for fullfill the schema
+		});
+	});
 </script>
 
 <div class="flex flex-col gap-y-6 py-6 bg-surface-50-900-token px-5 h-full">
@@ -40,12 +45,7 @@
 		<p class="text-sm">Lengkapi form dibawah untuk menambahkan konten digital</p>
 	</div>
 
-	<form
-		class="h-full flex flex-col gap-6"
-		action="/api/v1/admin/contents"
-		method="POST"
-		use:enhance
-	>
+	<form class="h-full flex flex-col gap-6" action="/admin?/contents" method="POST" use:enhance>
 		<div class="space-y-4 flex-1">
 			<div class="flex flex-col gap-y-4">
 				<input type="hidden" name="collectionId" bind:value={$drawerStore.meta.collectionId} />
@@ -59,6 +59,8 @@
 					<input type="text" name="targetUrl" class="input p-2 px-3" bind:value={$form.targetUrl} />
 					<FormErrorMessage errors={$errors.targetUrl} />
 				</label>
+				<!-- Dummy for fullfil the schema -->
+				<input type="hidden" name="generatedUrl" bind:value={$form.generatedUrl} />
 			</div>
 		</div>
 		<hr />

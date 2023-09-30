@@ -12,7 +12,7 @@
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	$: collectionId = $page.data.collectionId;
-	$: groups = $page.data.groups;
+	$: collections = $page.data.collections;
 	$: {
 		if (collectionId) drawerStore.close();
 	}
@@ -30,7 +30,7 @@
 		<CreateContentModal />
 	{:else if $drawerStore.id === 'navigationDrawer'}
 		<div class="px-4 py-6 h-full">
-			<NavigationDrawer bind:value={searchQuery} {groups} {collectionId} />
+			<NavigationDrawer bind:value={searchQuery} {collections} {collectionId} />
 		</div>
 	{/if}
 </Drawer>

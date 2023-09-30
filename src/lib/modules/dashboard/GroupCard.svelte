@@ -49,10 +49,20 @@
 		type: 'confirm',
 		title: 'Hapus Buku',
 		body: `Apakah anda yakin ingin menghapus buku dengan judul: ${groupTitle}?`,
-		response(confirm) {
+		meta: {
+			collectionId: id
+		},
+		async response(confirm) {
 			if (confirm) {
-				console.log('delete', group);
-				// deleteGroup();
+				const data = new FormData();
+				data.append('id', group.id);
+				data.append('delete', 'true');
+				const response = await fetch('/admin?/collections', {
+					method: 'POST',
+					body: data
+				});
+
+				goto(location.pathname, { keepFocus: true, invalidateAll: true });
 			}
 		}
 	} as ModalSettings;
@@ -79,7 +89,7 @@
 	<button
 		class="btn-icon btn-sm h-8 w-8 {isOpen
 			? 'flex variant-soft'
-			: 'hidden'} group-hover:flex hover:variant-soft"
+			: 'lg:hidden'} group-hover:flex hover:variant-soft"
 		use:popup={popupMenuSettings}
 		on:click|preventDefault|stopPropagation={() => {}}
 	>
@@ -96,7 +106,7 @@
 			}}
 		>
 			<i class="bx bx-edit" />
-			<span class="ml-2">Edit Buku</span>
+			<span class="ml-2">Edit Koleksi</span>
 		</button>
 		<button
 			class="btn btn-sm justify-start text-start rounded-none hover:text-token hover:variant-soft w-full"
@@ -105,7 +115,7 @@
 			}}
 		>
 			<i class="bx bx-trash" />
-			<span class="ml-2">Hapus Buku</span>
+			<span class="ml-2">Hapus Koleksi</span>
 		</button>
 	</div>
 </div>
