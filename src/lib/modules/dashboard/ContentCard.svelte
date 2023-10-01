@@ -1,17 +1,22 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import type { Collection } from '$lib/models/collections';
 	import type { ContentDigital } from '$lib/models/contents';
+	import { CANVAS_QR_PREFIX_ID } from '$lib/utils/constants';
+	import { downloadQRCodes, getLinks } from '$lib/utils/helpers.client';
 	import {
 		drawerStore,
+		modalStore,
 		popup,
 		type ModalSettings,
-		type PopupSettings,
-		modalStore
+		type PopupSettings
 	} from '@skeletonlabs/skeleton';
+	import { toCanvas } from 'qrcode';
 
 	export let contentData: ContentDigital;
 
+	const collection = $page.data.collection as Collection;
 	const formObj = $page.data.formCreateContent;
 	const openContentDetail = (contentId: string) => {
 		drawerStore.open({
@@ -63,6 +68,12 @@
 			isMenuOpen = event.state;
 		}
 	} as PopupSettings;
+
+	let canvasQR: HTMLCanvasElement;
+	$: {
+		const generatedUrl = getLinks(contentData.link.url);
+		toCanvas(canvasQR, generatedUrl, { width: 160, margin: 2 });
+	}
 </script>
 
 <div
@@ -80,11 +91,15 @@
 		<div class="flex-1">
 			<p class="h5 font-semibold">{contentData.title}</p>
 			<p class="text-sm line-clamp-1">{contentData.link.targetUrl}</p>
+			<div class="hidden">
+				<canvas
+					data-name={collection.name + '-' + contentData.title}
+					id={CANVAS_QR_PREFIX_ID.concat(contentData.collectionId, contentData.id)}
+					bind:this={canvasQR}
+					class={CANVAS_QR_PREFIX_ID.concat(contentData.collectionId)}
+				/>
+			</div>
 		</div>
-		<!-- <div class="flex-1">
-              <p class="h5 font-semibold">Generated Link</p>
-              <p class="text-sm">{collectionData.generatedLink.url}</p>
-            </div> -->
 	</div>
 	<button
 		class="btn-icon btn-sm flex-shrink-0 hover:variant-soft {isMenuOpen ? 'variant-soft' : ''}"
@@ -104,7 +119,7 @@
 			<button
 				class="btn btn-sm justify-start text-start rounded-none hover:text-token hover:variant-soft w-full"
 				on:click|stopPropagation={() => {
-					// openEditModal();
+					downloadQRCodes({ canvas: canvasQR, name: contentData.title });
 				}}
 			>
 				<i class="bx bx-export" />
