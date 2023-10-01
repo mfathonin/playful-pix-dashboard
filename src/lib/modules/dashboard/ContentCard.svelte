@@ -2,13 +2,17 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ContentDigital } from '$lib/models/contents';
+	import { CANVAS_QR_PREFIX_ID } from '$lib/utils/constants';
+	import { getLinks } from '$lib/utils/helpers.client';
 	import {
 		drawerStore,
+		modalStore,
 		popup,
 		type ModalSettings,
-		type PopupSettings,
-		modalStore
+		type PopupSettings
 	} from '@skeletonlabs/skeleton';
+	import { toCanvas } from 'qrcode';
+	import { onMount } from 'svelte';
 
 	export let contentData: ContentDigital;
 
@@ -63,6 +67,12 @@
 			isMenuOpen = event.state;
 		}
 	} as PopupSettings;
+
+	let canvasQR: HTMLCanvasElement;
+	onMount(() => {
+		const generatedUrl = getLinks(contentData.link.url);
+		toCanvas(canvasQR, generatedUrl, { width: 160, margin: 2 });
+	});
 </script>
 
 <div
@@ -80,11 +90,14 @@
 		<div class="flex-1">
 			<p class="h5 font-semibold">{contentData.title}</p>
 			<p class="text-sm line-clamp-1">{contentData.link.targetUrl}</p>
+			<div class="hidden">
+				<canvas
+					id={CANVAS_QR_PREFIX_ID.concat(contentData.collectionId, contentData.id)}
+					bind:this={canvasQR}
+					class={CANVAS_QR_PREFIX_ID.concat(contentData.collectionId)}
+				/>
+			</div>
 		</div>
-		<!-- <div class="flex-1">
-              <p class="h5 font-semibold">Generated Link</p>
-              <p class="text-sm">{collectionData.generatedLink.url}</p>
-            </div> -->
 	</div>
 	<button
 		class="btn-icon btn-sm flex-shrink-0 hover:variant-soft {isMenuOpen ? 'variant-soft' : ''}"
