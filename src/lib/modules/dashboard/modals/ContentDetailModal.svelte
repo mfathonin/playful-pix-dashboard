@@ -37,9 +37,14 @@
 		generatedUrl = getLinks(content.link.url);
 		toCanvas(canvasQR, generatedUrl, { width: 160, margin: 2 });
 	});
+
 	$: {
 		generatedUrl = getLinks($form.generatedUrl);
 		toCanvas(canvasQR, generatedUrl, { width: 160, margin: 2 });
+		form.update((current) => ({
+			...current,
+			generatedUrl: current.generatedUrl.replace(' ', '-')
+		}));
 	}
 </script>
 

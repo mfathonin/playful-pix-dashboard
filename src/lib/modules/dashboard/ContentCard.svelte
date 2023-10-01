@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import type { Collection } from '$lib/models/collections';
 	import type { ContentDigital } from '$lib/models/contents';
 	import { CANVAS_QR_PREFIX_ID } from '$lib/utils/constants';
-	import { getLinks } from '$lib/utils/helpers.client';
+	import { downloadQRCodes, getLinks } from '$lib/utils/helpers.client';
 	import {
 		drawerStore,
 		modalStore,
@@ -12,10 +13,10 @@
 		type PopupSettings
 	} from '@skeletonlabs/skeleton';
 	import { toCanvas } from 'qrcode';
-	import { onMount } from 'svelte';
 
 	export let contentData: ContentDigital;
 
+	const collection = $page.data.collection as Collection;
 	const formObj = $page.data.formCreateContent;
 	const openContentDetail = (contentId: string) => {
 		drawerStore.open({
@@ -69,10 +70,10 @@
 	} as PopupSettings;
 
 	let canvasQR: HTMLCanvasElement;
-	onMount(() => {
+	$: {
 		const generatedUrl = getLinks(contentData.link.url);
 		toCanvas(canvasQR, generatedUrl, { width: 160, margin: 2 });
-	});
+	}
 </script>
 
 <div
@@ -92,6 +93,7 @@
 			<p class="text-sm line-clamp-1">{contentData.link.targetUrl}</p>
 			<div class="hidden">
 				<canvas
+					data-name={collection.name + '-' + contentData.title}
 					id={CANVAS_QR_PREFIX_ID.concat(contentData.collectionId, contentData.id)}
 					bind:this={canvasQR}
 					class={CANVAS_QR_PREFIX_ID.concat(contentData.collectionId)}
@@ -117,7 +119,7 @@
 			<button
 				class="btn btn-sm justify-start text-start rounded-none hover:text-token hover:variant-soft w-full"
 				on:click|stopPropagation={() => {
-					// openEditModal();
+					downloadQRCodes({ canvas: canvasQR, name: contentData.title });
 				}}
 			>
 				<i class="bx bx-export" />
