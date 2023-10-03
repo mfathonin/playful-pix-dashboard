@@ -48,7 +48,7 @@
 		<SearchBar bind:value={serachQuery} />
 		<div class="flex gap-2">
 			<button
-				class="btn btn-sm w-9 h-9 lg:w-11 lg:h-11 xl:w-fit variant-soft-secondary"
+				class="btn btn-sm w-9 h-9 lg:w-11 lg:h-11 xl:w-fit variant-soft-primary text-primary-500-400-token"
 				on:click={handleDownloadAllQR}
 			>
 				<i class="bx bx-cloud-download text-lg lg:text-xl" />

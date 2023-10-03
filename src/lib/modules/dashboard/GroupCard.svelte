@@ -75,9 +75,9 @@
 <div
 	role="button"
 	tabindex="0"
-	class="flex w-full text-start py-1 px-4 pr-1 h-11 gap-x-1 group border border-transparent hover:border-primary-400-500-token hover:bg-primary-300-600-token rounded-lg items-center cursor-pointer select-none {isSelected
-		? 'bg-primary-200-700-token'
-		: ''}"
+	class="flex w-full text-start py-1 px-4 pr-1 h-11 gap-x-1 group border border-transparent rounded-lg items-center cursor-pointer select-none {isSelected
+		? 'bg-primary-50-900-token hover:bg-primary-100-800-token border-primary-500-400-token'
+		: 'hover:bg-surface-100-800-token'}"
 	on:click={navigateToDetail}
 	on:keydown={(event) => {
 		if (event.key === 'Enter' || event.key === ' ') {
@@ -93,11 +93,11 @@
 		use:popup={popupMenuSettings}
 		on:click|preventDefault|stopPropagation={() => {}}
 	>
-		<i class="bx bx-dots-horizontal-rounded" />
+		<i class="text-secondary-500 dark:text-secondary-400 bx bx-dots-horizontal-rounded" />
 	</button>
 </div>
 
-<div class="card py-2 shadow-md" data-popup="popupMenu{group.id}">
+<div class="card py-2 bg-surface-100-800-token shadow-md" data-popup="popupMenu{group.id}">
 	<div class="flex flex-col gap-y-1">
 		<button
 			class="btn btn-sm justify-start text-start rounded-none hover:text-token hover:variant-soft w-full"

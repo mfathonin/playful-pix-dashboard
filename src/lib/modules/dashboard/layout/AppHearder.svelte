@@ -43,17 +43,18 @@
 		<button class="lg:hidden btn-icon hover:variant-soft" on:click={() => openNavigationDrawer()}>
 			<i class="bx bx-menu-alt-left text-3xl" />
 		</button>
-		<h2 class="h2">Logo</h2>
+		<h2 class="h2 text-primary-400-500-token">Logo</h2>
 	</div>
 	<div class="flex gap-4 items-center">
 		<div
-			class="flex gap-4 items-center py-1 pl-1 pr-1 md:pr-4 rounded-full cursor-pointer group hover:bg-surface-200-700-token"
+			class="flex gap-4 items-center py-1 pl-1 pr-1 md:pr-4 rounded-full cursor-pointer group hover:bg-surface-100-800-token"
 			use:popup={openProfileMenu}
 		>
 			<Avatar
-				initials={user.email ?? 'UN'}
+				initials={user.email ?? 'MP'}
 				width="w-11 h-11"
-				border="border-2 border-surface-200-700-token group-hover:!border-primary-500"
+				background="bg-primary-500-400-token"
+				fill="fill-white"
 			/>
 			<p class="hidden md:flex">{user.email}</p>
 		</div>
@@ -77,6 +78,13 @@
 			</form>
 		</div>
 
-		<LightSwitch rounded="rounded-full" height="h-5" width="w-10" />
+		<LightSwitch
+			class="bg-primary-200 border border-primary-50 dark:border-surface-700 dark:bg-surface-900"
+			bgDark="bg-primary-500 dark:bg-surface-100"
+			fillDark="fill-primary-500 dark:fill-primary-400-token"
+			rounded="rounded-full"
+			height="h-6"
+			width="w-12"
+		/>
 	</div>
 </div>

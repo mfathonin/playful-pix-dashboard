@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { Collection } from '$lib/models/collections';
@@ -71,8 +72,10 @@
 
 	let canvasQR: HTMLCanvasElement;
 	$: {
-		const generatedUrl = getLinks(contentData.link.url);
-		toCanvas(canvasQR, generatedUrl, { width: 160, margin: 2 });
+		if (browser) {
+			const generatedUrl = getLinks(contentData.link.url);
+			toCanvas(canvasQR, generatedUrl, { width: 160, margin: 2 });
+		}
 	}
 </script>
 
@@ -90,7 +93,7 @@
 	<div class="flex flex-col w-full md:flex-row gap-x-10 gap-y-3">
 		<div class="flex-1">
 			<p class="h5 font-semibold">{contentData.title}</p>
-			<p class="text-sm line-clamp-1">{contentData.link.targetUrl}</p>
+			<p class="text-sm text-secondary-500-400-token line-clamp-1">{contentData.link.targetUrl}</p>
 			<div class="hidden">
 				<canvas
 					data-name={collection.name + '-' + contentData.title}
