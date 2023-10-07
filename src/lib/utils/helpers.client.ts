@@ -1,7 +1,8 @@
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import { env } from '$env/dynamic/public';
 
-export const getPrefixLinks = () => location.origin + '/links/';
+export const getPrefixLinks = () => (env.PUBLIC_LINKS_APP || location.origin) + '/links/';
 export const getLinks = (text: string): string => {
 	return new URL(text, getPrefixLinks()).href;
 };
