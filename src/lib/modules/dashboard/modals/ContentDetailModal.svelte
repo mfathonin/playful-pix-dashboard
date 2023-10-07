@@ -73,7 +73,7 @@
 					<span class="font-semibold">Judul</span>
 					<input
 						type="text"
-						class="input p-2 px-3 {$errors.title ? 'input-error' : ''}"
+						class="input {$errors.title ? 'input-error' : ''}"
 						name="title"
 						bind:value={$form.title}
 					/>
@@ -84,7 +84,7 @@
 					<input
 						type="text"
 						name="targetUrl"
-						class="input p-2 px-3 {$errors.targetUrl ? 'input-error' : ''}"
+						class="input {$errors.targetUrl ? 'input-error' : ''}"
 						bind:value={$form.targetUrl}
 					/>
 					<FormErrorMessage errors={$errors.targetUrl} />
@@ -96,7 +96,7 @@
 					</div>
 					<div class="flex gap-x-3 items-center {!isEditLink ? 'hidden' : ''}">
 						<input
-							class="input p-2 px-3 {$errors.generatedUrl ? 'input-error' : ''}"
+							class="input {$errors.generatedUrl ? 'input-error' : ''}"
 							name="generatedUrl"
 							bind:value={$form.generatedUrl}
 						/>

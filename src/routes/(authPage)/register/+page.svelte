@@ -36,7 +36,7 @@
 	<label class="label" aria-required="true">
 		<span>Email</span>
 		<input
-			class={`input p-2 ${$errors.email ? 'input-error' : ''}`}
+			class={`input {$errors.email ? 'input-error' : ''}`}
 			name="email"
 			placeholder="Masukan email Anda"
 			bind:value={$form.email}
@@ -46,7 +46,7 @@
 	<label class="label" aria-required="true">
 		<span>Password</span>
 		<input
-			class={'input p-2'}
+			class={'input'}
 			type="password"
 			name="password"
 			placeholder="Masukan password Anda"
@@ -57,7 +57,7 @@
 	<label class="label" aria-required="true">
 		<span>Kode Pendaftaran</span>
 		<input
-			class={`input p-2 mb-10 ${$errors.registerCode ? 'input-error' : ''}`}
+			class={`input mb-10 ${$errors.registerCode ? 'input-error' : ''}`}
 			type="password"
 			name="registerCode"
 			placeholder="Masukan kode register"

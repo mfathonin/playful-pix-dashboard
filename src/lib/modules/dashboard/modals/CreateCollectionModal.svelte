@@ -79,7 +79,7 @@
 						type="text"
 						placeholder="Masukan nama koleksi"
 						name="name"
-						class="input p-2 px-3"
+						class="input"
 						bind:value={$form.name}
 					/>
 					<FormErrorMessage errors={$errors.name} />
@@ -105,7 +105,7 @@
 										type="text"
 										placeholder="Masukan nama properti"
 										name="attributes"
-										class="input p-2 px-3"
+										class="input"
 										bind:value={$form.attributes[index].key}
 									/>
 									<FormErrorMessage errors={$errors.attributes?.[index]?.key} />
@@ -115,7 +115,7 @@
 										type="text"
 										placeholder="Masukan nilai properti"
 										name="attributes"
-										class="input p-2 px-3"
+										class="input"
 										bind:value={$form.attributes[index].value}
 									/>
 									<FormErrorMessage errors={$errors.attributes?.[index]?.value} />

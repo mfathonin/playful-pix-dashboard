@@ -51,12 +51,12 @@
 				<input type="hidden" name="collectionId" bind:value={$drawerStore.meta.collectionId} />
 				<label class="text-base space-y-1">
 					<span class="font-semibold">Judul</span>
-					<input type="text" name="title" class="input p-2 px-3" bind:value={$form.title} />
+					<input type="text" name="title" class="input" bind:value={$form.title} />
 					<FormErrorMessage errors={$errors.title} />
 				</label>
 				<label class="text-base space-y-1">
 					<span class="font-semibold">Link</span>
-					<input type="text" name="targetUrl" class="input p-2 px-3" bind:value={$form.targetUrl} />
+					<input type="text" name="targetUrl" class="input" bind:value={$form.targetUrl} />
 					<FormErrorMessage errors={$errors.targetUrl} />
 				</label>
 				<!-- Dummy for fullfil the schema -->
