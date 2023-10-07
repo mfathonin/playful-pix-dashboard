@@ -17,7 +17,7 @@
 	let isSubmitting = false;
 </script>
 
-<h1 class="h2">Logo</h1>
+<h1 class="h2 text-primary-400-500-token">Logo</h1>
 {#if $message}
 	<div class="py-4 border border-error-300-600-token text-center text-error-500 rounded-lg">
 		<p class="h-5">{$message}</p>
