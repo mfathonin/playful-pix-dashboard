@@ -54,10 +54,10 @@
 	<div class="flex justify-between items-center">
 		<p class="h6">{isEditing ? 'Ubah' : 'Tambah'} Koleksi</p>
 		<button
-			class="btn-icon btn-icon-sm text-lg hover:variant-soft"
+			class="btn-icon btn-icon-sm text-lg hover:variant-soft-surface text-surface-500-400-token"
 			on:click|preventDefault|stopPropagation={() => drawerStore.close()}
 		>
-			<i class="bx bx-x" />
+			<i class="bx bx-x bx-sm" />
 		</button>
 	</div>
 
@@ -79,7 +79,7 @@
 						type="text"
 						placeholder="Masukan nama koleksi"
 						name="name"
-						class="input p-2 px-3"
+						class="input {$errors.name ? 'input-error' : 'bg-surface-50-900-token'}"
 						bind:value={$form.name}
 					/>
 					<FormErrorMessage errors={$errors.name} />
@@ -105,7 +105,9 @@
 										type="text"
 										placeholder="Masukan nama properti"
 										name="attributes"
-										class="input p-2 px-3"
+										class="input {$errors.attributes?.[index]?.key
+											? 'input-error'
+											: 'bg-surface-50-900-token'}"
 										bind:value={$form.attributes[index].key}
 									/>
 									<FormErrorMessage errors={$errors.attributes?.[index]?.key} />
@@ -115,7 +117,9 @@
 										type="text"
 										placeholder="Masukan nilai properti"
 										name="attributes"
-										class="input p-2 px-3"
+										class="input {$errors.attributes?.[index]?.value
+											? 'input-error'
+											: 'bg-surface-50-900-token'}"
 										bind:value={$form.attributes[index].value}
 									/>
 									<FormErrorMessage errors={$errors.attributes?.[index]?.value} />
@@ -136,7 +140,7 @@
 			</div>
 		</div>
 		<hr class="-mx-5" />
-		<button disabled={$submitting} class="btn variant-filled w-full">
+		<button disabled={$submitting} class="btn variant-filled-primary w-full">
 			{isEditing ? 'Simpan' : 'Tambah'} koleksi
 		</button>
 	</form>

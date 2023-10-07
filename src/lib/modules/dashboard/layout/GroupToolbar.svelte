@@ -21,16 +21,16 @@
 </script>
 
 <h3 class="h3 mb-2">Daftar Koleksi</h3>
-<p class="text-sm text-secondary-700-200-token mb-3">
+<p class="text-sm text-secondary-700-200-token opacity-70 mb-3">
 	Kelola konten digital untuk koleksi anda dengan mudah
 </p>
 <div class="flex gap-2 mb-6">
 	<SearchBar bind:value />
 	<button
-		class="btn-icon h-8 w-8 lg:h-10 lg:w-10 flex-shrink-0 variant-filled-surface"
+		class="btn-icon h-8 w-8 lg:h-10 lg:w-10 flex-shrink-0 variant-soft-primary"
 		on:click|preventDefault|stopPropagation={openFilterModal}
 	>
-		<i class="bx bx-filter-alt text-sm lg:text-xl text-on-surface-token" />
+		<i class="bx bx-filter-alt text-sm lg:text-xl text-primary-500-400-token" />
 	</button>
 	<button
 		class="btn-icon h-8 lg:h-10 w-8 lg:w-10 flex-shrink-0 variant-filled-primary"
