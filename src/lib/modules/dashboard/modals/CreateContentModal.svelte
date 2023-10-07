@@ -36,7 +36,7 @@
 			class="btn-icon btn-icon-sm text-lg hover:variant-soft"
 			on:click|preventDefault|stopPropagation={() => drawerStore.close()}
 		>
-			<i class="bx bx-x" />
+			<i class="bx bx-x bx-sm" />
 		</button>
 	</div>
 
@@ -51,12 +51,24 @@
 				<input type="hidden" name="collectionId" bind:value={$drawerStore.meta.collectionId} />
 				<label class="text-base space-y-1">
 					<span class="font-semibold">Judul</span>
-					<input type="text" name="title" class="input" bind:value={$form.title} />
+					<input
+						type="text"
+						name="title"
+						placeholder="Masukan judul konten"
+						class="input {$errors.title ? 'input-error' : 'bg-surface-50-900-token'}"
+						bind:value={$form.title}
+					/>
 					<FormErrorMessage errors={$errors.title} />
 				</label>
 				<label class="text-base space-y-1">
 					<span class="font-semibold">Link</span>
-					<input type="text" name="targetUrl" class="input" bind:value={$form.targetUrl} />
+					<input
+						type="text"
+						name="targetUrl"
+						placeholder="https://www.youtube.com/watch?v=1234567890"
+						class="input {$errors.targetUrl ? 'input-error' : 'bg-surface-50-900-token'}"
+						bind:value={$form.targetUrl}
+					/>
 					<FormErrorMessage errors={$errors.targetUrl} />
 				</label>
 				<!-- Dummy for fullfil the schema -->
@@ -64,6 +76,6 @@
 			</div>
 		</div>
 		<hr />
-		<button class="btn variant-filled w-full">Tambah konten</button>
+		<button class="btn variant-filled-primary w-full">Tambah konten</button>
 	</form>
 </div>

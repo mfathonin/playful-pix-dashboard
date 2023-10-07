@@ -73,7 +73,7 @@
 					<span class="font-semibold">Judul</span>
 					<input
 						type="text"
-						class="input {$errors.title ? 'input-error' : ''}"
+						class="input {$errors.title ? 'input-error' : 'bg-surface-50-900-token'}"
 						name="title"
 						bind:value={$form.title}
 					/>
@@ -84,7 +84,7 @@
 					<input
 						type="text"
 						name="targetUrl"
-						class="input {$errors.targetUrl ? 'input-error' : ''}"
+						class="input {$errors.targetUrl ? 'input-error' : 'bg-surface-50-900-token'}"
 						bind:value={$form.targetUrl}
 					/>
 					<FormErrorMessage errors={$errors.targetUrl} />
@@ -96,7 +96,7 @@
 					</div>
 					<div class="flex gap-x-3 items-center {!isEditLink ? 'hidden' : ''}">
 						<input
-							class="input {$errors.generatedUrl ? 'input-error' : ''}"
+							class="input {$errors.generatedUrl ? 'input-error' : 'bg-surface-50-900-token'}"
 							name="generatedUrl"
 							bind:value={$form.generatedUrl}
 						/>
@@ -127,6 +127,6 @@
 			</div>
 		</div>
 		<hr />
-		<button class="btn variant-filled w-full">Simpan</button>
+		<button class="btn variant-filled-primary w-full">Simpan</button>
 	</form>
 </div>
