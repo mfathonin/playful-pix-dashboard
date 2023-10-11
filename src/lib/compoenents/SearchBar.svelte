@@ -9,7 +9,7 @@
 		<i class="bx bx-search" />
 	</div>
 	<input
-		class="outline-none py-1 lg:py-2 px-2 lg:px-3 !border-l-0"
+		class="!outline-none py-1 lg:py-2 px-2 lg:px-3 !border-l-0"
 		type="text"
 		placeholder="Cari"
 		name="q"
