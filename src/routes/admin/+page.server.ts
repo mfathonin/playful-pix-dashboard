@@ -136,17 +136,14 @@ export const actions: Actions = {
 
 const generateUrl = (title: string) => {
 	const today = new Date();
-	const dateStr = today.toISOString().replace(/[-:T]/g, '').slice(4, 12);
+	let dateStr = today.toISOString().replace(/[-:T]/g, '').slice(2, 14);
+	const dateNumb = parseInt(dateStr);
+	dateStr = dateNumb.toString(36);
 	const len = title.length;
-	const words = title.toLocaleLowerCase().replace('-', ' ').split(' ');
-	if (len <= 15) return words.join('-').concat('-', dateStr);
-
-	const url =
-		words.length > 2
-			? (words[0][0] + '-' + words[1][0] + '-' + words.slice(2).join('-')).slice(0, 20)
-			: words[0].slice(0, 20);
-
-	return url[url.length - 1] === '-'
-		? url.slice(0, url.length - 1).concat('-', dateStr)
-		: url.concat('-', dateStr);
+	const ret = `${dateStr}-${title
+		.toLocaleLowerCase()
+		.slice(0, len > 30 ? 30 : len)
+		.replace(/\s/g, '-')}`;
+	console.log('dateStr', dateStr, ret);
+	return ret.toLocaleLowerCase();
 };
