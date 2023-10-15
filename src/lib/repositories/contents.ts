@@ -33,6 +33,19 @@ export const getContentsById = async (id: string): Promise<ContentDigital | unde
 	}
 };
 
+export const getContentsByUrl = async (url: string): Promise<ContentDigital[] | undefined> => {
+	try {
+		const contents = await getDocumentsByQuery<ContentDigital>(
+			FC_CONTENTS,
+			where('link.url', '==', url)
+		);
+		return contents;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+};
+
 export const createContent = async (content: ContentDigitalModel) => {
 	try {
 		return await addNewDocument<ContentDigitalModel>(FC_CONTENTS, content);
