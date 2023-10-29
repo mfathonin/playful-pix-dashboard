@@ -2,7 +2,7 @@ import { env } from '$env/dynamic/public';
 import type { ContentDigital } from '$lib/models/contents.js';
 import { getCollectionById } from '$lib/repositories/collections';
 import { getContentsByUrl } from '$lib/repositories/contents';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 export const load = async ({ params, url }) => {
 	const isAllowed = url.searchParams.get('app') === env.PUBLIC_APP_ID;
@@ -29,5 +29,8 @@ export const load = async ({ params, url }) => {
 
 	if (!isAllowed) throw error(403, { message: JSON.stringify(data.filter((cn) => cn.collection)) });
 
-	return { contents: data.filter((cn) => cn.collection) };
+	const newUrl = new URL(url.pathname + '/data', url.origin);
+	newUrl.searchParams.set('app', env.PUBLIC_APP_ID);
+
+	throw redirect(303, newUrl.href);
 };
