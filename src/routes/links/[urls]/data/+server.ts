@@ -1,10 +1,10 @@
 import { env } from '$env/dynamic/public';
 import type { ContentDigital } from '$lib/models/contents.js';
-import { getCollectionById } from '$lib/repositories/collections';
-import { getContentsByUrl } from '$lib/repositories/contents';
-import { error } from '@sveltejs/kit';
+import { getCollectionById } from '$lib/repositories/collections.js';
+import { getContentsByUrl } from '$lib/repositories/contents.js';
+import { error, json } from '@sveltejs/kit';
 
-export const load = async ({ params, url }) => {
+export const GET = async ({ params, url, setHeaders }) => {
 	const isAllowed = url.searchParams.get('app') === env.PUBLIC_APP_ID;
 
 	const { urls: link } = params ?? {};
@@ -18,6 +18,7 @@ export const load = async ({ params, url }) => {
 	} catch (err) {
 		throw error(404);
 	}
+	if (!isAllowed) throw error(403, { message: "You're not allowed to access this resource" });
 
 	const promises = contents.map(async (content) => await getCollectionById(content.collectionId));
 	const collections = await Promise.all(promises);
@@ -27,7 +28,13 @@ export const load = async ({ params, url }) => {
 		collection: collections.find((collection) => collection?.id === content.collectionId)
 	}));
 
-	if (!isAllowed) throw error(403, { message: JSON.stringify(data.filter((cn) => cn.collection)) });
+	const response = json({ contents: data.filter((cn) => cn.collection) });
 
-	return { contents: data.filter((cn) => cn.collection) };
+	setHeaders({
+		'Access-Control-Allow-Origin': '*',
+		'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+		'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With'
+	});
+
+	return response;
 };
