@@ -30,7 +30,7 @@ export const load = async ({ params, url }) => {
 	if (!isAllowed) throw error(403, { message: JSON.stringify(data.filter((cn) => cn.collection)) });
 
 	const newUrl = new URL(url.pathname + '/data', url.origin);
-	newUrl.searchParams.set('app', env.PUBLIC_APP_ID);
+	if (env.PUBLIC_APP_ID) newUrl.searchParams.set('app', env.PUBLIC_APP_ID);
 
 	throw redirect(303, newUrl.href);
 };

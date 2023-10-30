@@ -4,7 +4,7 @@ import { getCollectionById } from '$lib/repositories/collections.js';
 import { getContentsByUrl } from '$lib/repositories/contents.js';
 import { error, json } from '@sveltejs/kit';
 
-export const GET = async ({ params, url }) => {
+export const GET = async ({ params, url, setHeaders }) => {
 	const isAllowed = url.searchParams.get('app') === env.PUBLIC_APP_ID;
 
 	const { urls: link } = params ?? {};
@@ -28,5 +28,13 @@ export const GET = async ({ params, url }) => {
 		collection: collections.find((collection) => collection?.id === content.collectionId)
 	}));
 
-	return json({ contents: data.filter((cn) => cn.collection) });
+	const response = json({ contents: data.filter((cn) => cn.collection) });
+
+	setHeaders({
+		'Access-Control-Allow-Origin': '*',
+		'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+		'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With'
+	});
+
+	return response;
 };
