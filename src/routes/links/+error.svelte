@@ -11,7 +11,9 @@
 
 <div class="bg-surface-100-800-token w-screen h-screen overflow-hidden">
 	<div class="flex flex-col gap-4 h-full mx-auto max-w-md items-center justify-center text-center">
-		<div class="h1 text-primary-400-500-token mb-16">LOGO</div>
+		<div class="h1 text-primary-400-500-token mb-16">
+			<img src="/icon-256x256.png" alt="Prodigi" class="w-24 h-24" />
+		</div>
 		{#if $page.status === 404}
 			<div class="h2">Tidak ada konten</div>
 			<div class="text-sm text-surface-400-500-token">
